@@ -1,11 +1,8 @@
-import dotenv from 'dotenv';
-dotenv.config();
-
 import connectDB from "./db.js";
 import express from "express";
 
 const app = express();
-const port = 3000;
+const port = 8010;
 
 connectDB();
 
@@ -14,5 +11,5 @@ app.get('/', (req, res) => {
 });
 
 app.listen(port, () => {
-  console.log(`Example app listening at http://localhost:${port}`);
+  console.log(`Example app listening at http://flip2.engr.oregonstate.edu:${port}`);
 });

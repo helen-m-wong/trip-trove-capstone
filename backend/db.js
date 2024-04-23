@@ -12,9 +12,10 @@ URL: https://medium.com/featurepreneur/connect-mongodb-database-to-express-serve
 import mongoose from "mongoose";
 
 export default function connectDB() {
+  const url = "mongodb+srv://wonghele:wQUDeHROxfHSOooY@tripplannerdb.y1x1gi0.mongodb.net/";
   try {
     mongoose.connect(
-        process.env.MONGODB_URI,
+        url,
         {
             useNewUrlParser: true,
             useUnifiedTopology: true

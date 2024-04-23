@@ -1,7 +1,7 @@
 {
   "name": "backend",
   "version": "1.0.0",
-  "description": "Trip Planner backend",
+  "description": "Trip Trove backend",
   "main": "server.js",
   "type": "module",
   "scripts": {
@@ -10,7 +10,6 @@
   "author": "Hafsa Akyol, Joshua Palces, Helen Wong",
   "license": "ISC",
   "dependencies": {
-    "dotenv": "^16.4.5",
     "express": "^4.19.2",
     "mongoose": "^8.3.2"
   }
