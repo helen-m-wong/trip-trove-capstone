@@ -1,5 +1,6 @@
 import express from "express";
 import Trip from './Models/trips.js';
+import Experience from './Models/experiences.js';
 
 const routerTrips = express.Router();
 
@@ -7,16 +8,11 @@ const routerTrips = express.Router();
 routerTrips.post('/', async (req, res) => {
     try {
         console.log(req.body);
-        const { TripName, TripStartDate, TripEndDate, TripFlights, TripCars, TripAccommodations, TripExperiences } = req.body;
+        const { TripName } = req.body;
 
         const newTrip = new Trip({
             TripName,
-            TripStartDate,
-            TripEndDate,
-            TripFlights,
-            TripCars,
-            TripAccommodations,
-            TripExperiences
+            TripDays: []
         });
 
         await newTrip.save();
@@ -25,6 +21,42 @@ routerTrips.post('/', async (req, res) => {
     } catch (error) {
         console.log(error);
         res.status(500).json({ 'Error': 'Unable to create new trip' });
+    }
+});
+
+// Add Day to Trip
+routerTrips.post('/:id/days', async (req, res) => {
+    try {
+        const tripId = req.params.id;
+        const trip = await Trip.findById(tripId);
+        const newDayNumber = trip.TripDays.length + 1;
+
+        const newDay = {
+            DayNumber: newDayNumber,
+            DayExperiences: []
+        };
+
+        trip.TripDays.push(newDay);
+        await trip.save();
+        res.status(201).json(trip);
+
+    } catch (error) {
+        console.log(error);
+        res.status(500).json({ 'Error': 'Unable to add day to trip' });
+    }
+});
+
+// View Day of a Trip
+routerTrips.get('/:tripId/days/:dayId', async (req, res) => {
+    try {
+        const tripId = req.params.tripId;
+        const dayId = req.params.dayId;
+        const trip = await Trip.findById(tripId);
+        const day = trip.TripDays.find(day => day._id.toString() === dayId);
+       res.status(200).json(day);
+    } catch (error) {
+        console.log(error);
+        res.status(500).json({ 'Error': 'Unable to find day of this trip'});
     }
 });
 
@@ -42,6 +74,7 @@ routerTrips.get('/', async (req, res) => {
 // Get a Trip by ID
 routerTrips.get('/:id', async (req, res) => {
     try {
+        console.log(req.params.id);
         const trip = await Trip.findById(req.params.id);
         res.status(200).json(trip);
     } catch (error) {
@@ -50,21 +83,20 @@ routerTrips.get('/:id', async (req, res) => {
     }
 });
 
-// Update a Trip
+// Update Trip Name
 routerTrips.put('/:id', async (req, res) => {
     try {
-        const { TripName, TripStartDate, TripEndDate, TripFlights, TripCars, TripAccommodations, TripExperiences } = req.body;
-        const updateProps = {
-            TripName,
-            TripStartDate,
-            TripEndDate,
-            TripFlights,
-            TripCars,
-            TripAccommodations,
-            TripExperiences
-        };
-        const updatedTrip = await Trip.findByIdAndUpdate(req.params.id, updateProps, { new: true });
-        res.status(200).json(updatedTrip);
+        const { TripName } = req.body;
+        const updatedTrip = await Trip.findByIdAndUpdate(
+            req.params.id,
+            { TripName },
+            { new: true }
+        );
+        if (updatedTrip) {
+            res.status(200).json(updatedTrip);
+        } else {
+            res.status(404).json({ 'Error': 'Trip not found' });
+        }
     } catch (error) {
         console.log(error);
         res.status(500).json({ 'Error': 'Unable to update trip'});
