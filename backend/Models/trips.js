@@ -1,5 +1,17 @@
 import mongoose from 'mongoose';
 
+const DaySchema = new mongoose.Schema(
+    {
+        DayNumber: {
+            type: Number,
+            required: true
+        },
+        DayExperiences: [{
+            type: mongoose.Schema.Types.ObjectId,
+            ref: "Experiences"
+        }]
+    });
+
 const TripSchema = new mongoose.Schema(
     {
         TripName: {
@@ -7,36 +19,7 @@ const TripSchema = new mongoose.Schema(
             maxLength: 100,
             required: true
         },
-        TripStartDate: {
-            type: Date,
-            required: true
-        },
-        TripEndDate: {
-            type: Date,
-            required: true
-        },
-        TripFlights: [{
-            airline: String,
-            flightNum: String,
-            departureTime: String,
-            arrivalTime: String
-        }],
-        TripCars: [{
-            rentalCompany: String,
-            pickupDate: Date,
-            dropoffDate: Date,
-            notes: String
-        }],
-        TripAccommodations: [{
-            accommodationType: String,
-            accommodationAddress: String,
-            checkInDate: Date,
-            checkOutDate: Date,
-            notes: String
-        }],
-        TripExperiences: [{
-            type: mongoose.Schema.Types.ObjectId, ref: "Experiences"
-        }]
+        TripDays: [DaySchema]
     });
 
 const Trip = mongoose.model("Trip", TripSchema)
