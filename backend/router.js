@@ -7,11 +7,11 @@ const routerTrips = express.Router();
 // Create a new Trip
 routerTrips.post('/', async (req, res) => {
     try {
-        console.log(req.body);
-        const { TripName } = req.body;
+        const { TripName, TripDescription } = req.body;
 
         const newTrip = new Trip({
             TripName,
+            TripDescription,
             TripDays: []
         });
 
@@ -74,7 +74,6 @@ routerTrips.get('/', async (req, res) => {
 // Get a Trip by ID
 routerTrips.get('/:id', async (req, res) => {
     try {
-        console.log(req.params.id);
         const trip = await Trip.findById(req.params.id);
         res.status(200).json(trip);
     } catch (error) {
@@ -83,23 +82,24 @@ routerTrips.get('/:id', async (req, res) => {
     }
 });
 
-// Update Trip Name
+// Update Trip
 routerTrips.put('/:id', async (req, res) => {
     try {
-        const { TripName } = req.body;
+        const { TripName, TripDescription } = req.body;
+
         const updatedTrip = await Trip.findByIdAndUpdate(
             req.params.id,
-            { TripName },
-            { new: true }
-        );
+            { TripName, TripDescription },
+            { new: true });
+
         if (updatedTrip) {
             res.status(200).json(updatedTrip);
         } else {
-            res.status(404).json({ 'Error': 'Trip not found' });
+            res.status(404).json({ error: 'Trip not found' });
         }
     } catch (error) {
-        console.log(error);
-        res.status(500).json({ 'Error': 'Unable to update trip'});
+        console.error(error);
+        res.status(500).json({ error: 'Unable to update trip' });
     }
 });
 
