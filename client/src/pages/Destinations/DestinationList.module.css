@@ -1,0 +1,19 @@
+.container {
+    text-align: left; /* Or any alignment you prefer */
+    padding: 20px;
+  }
+  
+  .destination {
+    margin: 10px 0;
+    padding: 10px;
+    border: 1px solid #ccc;
+  }
+  
+  .title {
+    font-size: 1.5em;
+    color: #333;
+  }
+  
+  .description {
+    color: #666;
+  }

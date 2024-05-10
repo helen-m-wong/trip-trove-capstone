@@ -1,0 +1,36 @@
+.container {
+    padding: 20px;
+  }
+  
+  .tour-list {
+    list-style-type: none;
+    padding: 0;
+  }
+  
+  .tour-item {
+    margin: 10px 0;
+    padding: 15px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    background-color: #f9f9f9;
+    cursor: pointer;
+    transition: background-color 0.3s;
+  }
+  
+  .tour-item:hover {
+    background-color: #e0e0e0;
+  }
+  
+  .tour-title {
+    font-size: 1.5em;
+    color: #333;
+  }
+  
+  .tour-description {
+    color: #666;
+  }
+  
+  .tour-link {
+    text-decoration: none;
+    color: inherit;
+  }
