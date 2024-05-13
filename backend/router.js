@@ -3,6 +3,7 @@ import Trip from './Models/trips.js';
 import Experience from './Models/experiences.js';
 
 const routerTrips = express.Router();
+const routerExperiences = express.Router();
 
 // Create a new Trip
 routerTrips.post('/', async (req, res) => {
@@ -78,7 +79,7 @@ routerTrips.get('/:id', async (req, res) => {
         res.status(200).json(trip);
     } catch (error) {
         console.log(error);
-        res.status(500).json({ 'Error': 'Unable to find trip with this id'});
+        res.status(500).json({ 'Error': 'Unable to find trip'});
     }
 });
 
@@ -114,4 +115,77 @@ routerTrips.delete('/:id', async (req, res) => {
     }
 });
 
-export default routerTrips;
+// Get all experiences 
+routerExperiences.get('/', async (req, res) => {
+    try {
+        const ex = await Experience.find({});
+        res.status(200).json(ex);
+    } catch (error) {
+        console.log(error);
+        res.status(500).json({ 'Error': 'Unable to get experiences' });
+    }
+});
+
+// Get an Experience by ID
+routerExperiences.get('/:id', async (req, res) => {
+    try {
+        const exp = await Experience.findById(req.params.id);
+        res.status(200).json(exp);
+    } catch (error) {
+        console.log(error);
+        res.status(500).json({ 'Error': 'Unable to find experience'});
+    }
+});
+
+// Create a new Experience
+routerExperiences.post('/', async (req, res) => {
+    try {
+        const { ExpName, ExpDescription } = req.body;
+
+        const newExp = new Experience({
+            ExpName,
+            ExpDescription
+        });
+
+        await newExp.save();
+        res.status(201).json(newExp);
+
+    } catch (error) {
+        console.log(error);
+        res.status(500).json({ 'Error': 'Unable to create new experience' });
+    }
+});
+
+// Update Experience
+routerExperiences.put('/:id', async (req, res) => {
+    try {
+        const { ExpName, ExpDescription } = req.body;
+
+        const updatedExp = await Experience.findByIdAndUpdate(
+            req.params.id,
+            { ExpName, ExpDescription },
+            { new: true });
+
+        if (updatedExp) {
+            res.status(200).json(updatedExp);
+        } else {
+            res.status(404).json({ error: 'Experience not found' });
+        }
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ error: 'Unable to update experience' });
+    }
+});
+
+// Delete an Experience
+routerExperiences.delete('/:id', async (req, res) => {
+    try {
+        await Experience.findByIdAndDelete(req.params.id);
+        res.status(204).end();
+    } catch (error) {
+        console.log(error);
+        res.status(500).json({ 'Error': 'Unable to delete experience'});
+    }
+});
+
+export { routerTrips, routerExperiences };
