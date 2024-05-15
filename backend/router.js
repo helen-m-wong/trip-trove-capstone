@@ -26,7 +26,7 @@ routerTrips.post('/', async (req, res) => {
 });
 
 // Add Day to Trip
-routerTrips.post('/:id/days', async (req, res) => {
+routerTrips.post('/:id/add-day', async (req, res) => {
     try {
         const tripId = req.params.id;
         const trip = await Trip.findById(tripId);
@@ -39,7 +39,9 @@ routerTrips.post('/:id/days', async (req, res) => {
 
         trip.TripDays.push(newDay);
         await trip.save();
-        res.status(201).json(trip);
+
+        const newDayId = trip.TripDays[trip.TripDays.length - 1]._id;
+        res.status(201).json(newDayId);
 
     } catch (error) {
         console.log(error);
@@ -48,7 +50,7 @@ routerTrips.post('/:id/days', async (req, res) => {
 });
 
 // View Day of a Trip
-routerTrips.get('/:tripId/days/:dayId', async (req, res) => {
+routerTrips.get('/:tripId/:dayId', async (req, res) => {
     try {
         const tripId = req.params.tripId;
         const dayId = req.params.dayId;
@@ -155,6 +157,38 @@ routerExperiences.post('/', async (req, res) => {
         res.status(500).json({ 'Error': 'Unable to create new experience' });
     }
 });
+
+// Add an Experience to a Day of a Trip
+routerTrips.post('/:tripId/:dayId/:expId', async (req, res) => {
+    try {
+        const { tripId, dayId, expId } = req.params;
+        console.log(tripId);
+        console.log(dayId);
+        console.log(expId);
+
+        const trip = await Trip.findById(tripId);
+        if (!trip) {
+            return res.status(404).json({ 'Error': 'Trip not found' });
+        }
+
+        const day = trip.TripDays.find(day => day._id.toString() === dayId);
+        if (!day) {
+            return res.status(404).json({ 'Error': 'Day not found' });
+        }
+
+        // Add the experience ID to the day's experiences array
+        day.DayExperiences.push(expId);
+
+        // Save the trip with the updated day
+        await trip.save();
+
+        res.status(201).json(trip);
+    } catch (error) {
+        console.log(error);
+        res.status(500).json({ 'Error': 'Unable to add experience to day' });
+    }
+});
+
 
 // Update Experience
 routerExperiences.put('/:id', async (req, res) => {

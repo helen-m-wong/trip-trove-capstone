@@ -25,7 +25,7 @@ function TripDetail() {
 
     const addDay = async () => {
         try {
-            const res = await fetch(`/trips/${id}/days`, {
+            const res = await fetch(`/trips/${id}/add-day`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'
