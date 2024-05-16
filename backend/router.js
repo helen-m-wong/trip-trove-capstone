@@ -147,13 +147,13 @@ routerExperiences.get('/', async (req, res) => {
 
         if (keyword) {
             // Case-insensitive search
-            const regex = new RegExp(keyword, 'i');
+            const regex = new RegExperience(keyword, 'i');
 
             // Find experiences where the name or description matches the keyword
             const experiences = await Experience.find({
                 $or: [
-                    { ExpName: { $regex: regex } },
-                    { ExpDescription: { $regex: regex } }
+                    { ExperienceName: { $regex: regex } },
+                    { ExperienceDescription: { $regex: regex } }
                 ]
             });
 
@@ -172,8 +172,8 @@ routerExperiences.get('/', async (req, res) => {
 // Get an Experience by ID
 routerExperiences.get('/:id', async (req, res) => {
     try {
-        const exp = await Experience.findById(req.params.id);
-        res.status(200).json(exp);
+        const experience = await Experience.findById(req.params.id);
+        res.status(200).json(experience);
     } catch (error) {
         console.log(error);
         res.status(500).json({ 'Error': 'Unable to find experience'});
@@ -183,15 +183,15 @@ routerExperiences.get('/:id', async (req, res) => {
 // Create a new Experience
 routerExperiences.post('/', async (req, res) => {
     try {
-        const { ExpName, ExpDescription } = req.body;
+        const { ExperienceName, ExperienceDescription } = req.body;
 
-        const newExp = new Experience({
-            ExpName,
-            ExpDescription
+        const newExperience = new Experience({
+            ExperienceName,
+            ExperienceDescription
         });
 
-        await newExp.save();
-        res.status(201).json(newExp);
+        await newExperience.save();
+        res.status(201).json(newExperience);
 
     } catch (error) {
         console.log(error);
@@ -202,11 +202,11 @@ routerExperiences.post('/', async (req, res) => {
 // Update Experience
 routerExperiences.put('/:id', async (req, res) => {
     try {
-        const { ExpName, ExpDescription } = req.body;
+        const { ExperienceName, ExperienceDescription } = req.body;
 
         const updatedExp = await Experience.findByIdAndUpdate(
             req.params.id,
-            { ExpName, ExpDescription },
+            { ExperienceName, ExperienceDescription },
             { new: true });
 
         if (updatedExp) {
