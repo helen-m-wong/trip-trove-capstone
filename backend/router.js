@@ -140,14 +140,32 @@ routerTrips.delete('/:tripId/delete-day', async (req, res) => {
 });
 
 
-// Get all experiences 
+// Get all experiences, performs search if there is a query
 routerExperiences.get('/', async (req, res) => {
     try {
-        const ex = await Experience.find({});
-        res.status(200).json(ex);
+        const { keyword } = req.query;
+
+        if (keyword) {
+            // Case-insensitive search
+            const regex = new RegExp(keyword, 'i');
+
+            // Find experiences where the name or description matches the keyword
+            const experiences = await Experience.find({
+                $or: [
+                    { ExpName: { $regex: regex } },
+                    { ExpDescription: { $regex: regex } }
+                ]
+            });
+
+            res.status(200).json(experiences);
+        } else {
+            // Return all experiences if no keyword provided
+            const allExperiences = await Experience.find({});
+            res.status(200).json(allExperiences);
+        }
     } catch (error) {
-        console.log(error);
-        res.status(500).json({ 'Error': 'Unable to get experiences' });
+        console.error(error);
+        res.status(500).json({ 'Error': 'Unable to fetch experiences' });
     }
 });
 
