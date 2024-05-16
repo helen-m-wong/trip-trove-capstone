@@ -2,11 +2,11 @@ import mongoose from 'mongoose';
 
 const ExperienceSchema = new mongoose.Schema(
     {
-        ExpName: {
+        ExperienceName: {
             type: String,
             required: true
         },
-        ExpDescription: {
+        ExperienceDescription: {
             type: String
         }
     });
