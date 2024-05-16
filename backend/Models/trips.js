@@ -19,6 +19,9 @@ const TripSchema = new mongoose.Schema(
             maxLength: 100,
             required: true
         },
+        TripDescription: {
+            type: String
+        },
         TripDays: [DaySchema]
     });
 
