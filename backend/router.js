@@ -117,6 +117,29 @@ routerTrips.delete('/:id', async (req, res) => {
     }
 });
 
+// Delete the most recently added Day from a Trip
+routerTrips.delete('/:tripId/delete-day', async (req, res) => {
+    try {
+        const { tripId } = req.params;
+        const trip = await Trip.findById(tripId);
+        if (!trip) {
+            return res.status(404).json({ 'Error': 'Trip not found' });
+        }
+
+        if (trip.TripDays.length === 0) {
+            return res.status(404).json({ 'Error': 'No days found in the trip' });
+        }
+
+        trip.TripDays.pop();
+        await trip.save();
+        res.status(204).json(trip);
+    } catch (error) {
+        console.log(error);
+        res.status(500).json({ 'Error': 'Unable to delete day from trip' });
+    }
+});
+
+
 // Get all experiences 
 routerExperiences.get('/', async (req, res) => {
     try {
@@ -158,38 +181,6 @@ routerExperiences.post('/', async (req, res) => {
     }
 });
 
-// Add an Experience to a Day of a Trip
-routerTrips.post('/:tripId/:dayId/:expId', async (req, res) => {
-    try {
-        const { tripId, dayId, expId } = req.params;
-        console.log(tripId);
-        console.log(dayId);
-        console.log(expId);
-
-        const trip = await Trip.findById(tripId);
-        if (!trip) {
-            return res.status(404).json({ 'Error': 'Trip not found' });
-        }
-
-        const day = trip.TripDays.find(day => day._id.toString() === dayId);
-        if (!day) {
-            return res.status(404).json({ 'Error': 'Day not found' });
-        }
-
-        // Add the experience ID to the day's experiences array
-        day.DayExperiences.push(expId);
-
-        // Save the trip with the updated day
-        await trip.save();
-
-        res.status(201).json(trip);
-    } catch (error) {
-        console.log(error);
-        res.status(500).json({ 'Error': 'Unable to add experience to day' });
-    }
-});
-
-
 // Update Experience
 routerExperiences.put('/:id', async (req, res) => {
     try {
@@ -211,7 +202,7 @@ routerExperiences.put('/:id', async (req, res) => {
     }
 });
 
-// Delete an Experience
+// Delete an Experience (doesn't remove Experience from DayExperiences arrays)
 routerExperiences.delete('/:id', async (req, res) => {
     try {
         await Experience.findByIdAndDelete(req.params.id);
@@ -222,4 +213,93 @@ routerExperiences.delete('/:id', async (req, res) => {
     }
 });
 
+
+// Add an Experience to a Day of a Trip
+routerTrips.post('/:tripId/:dayId/:expId', async (req, res) => {
+    try {
+        const { tripId, dayId, expId } = req.params;
+
+        const trip = await Trip.findById(tripId);
+        if (!trip) {
+            return res.status(404).json({ 'Error': 'Trip not found' });
+        }
+
+        const day = trip.TripDays.find(day => day._id.toString() === dayId);
+        if (!day) {
+            return res.status(404).json({ 'Error': 'Day not found' });
+        }
+
+        // Add experience ID to the day's experiences array
+        day.DayExperiences.push(expId);
+        await trip.save();
+        res.status(201).json(day);
+    } catch (error) {
+        console.log(error);
+        res.status(500).json({ 'Error': 'Unable to add experience to day' });
+    }
+});
+
+// Delete an Experience from a Day of a Trip (doesn't delete Experience)
+routerTrips.delete('/:tripId/:dayId/:expId', async (req, res) => {
+    try {
+        const { tripId, dayId, expId } = req.params;
+
+        const trip = await Trip.findById(tripId);
+        if (!trip) {
+            return res.status(404).json({ 'Error': 'Trip not found' });
+        }
+
+        const day = trip.TripDays.find(day => day._id.toString() === dayId);
+        if (!day) {
+            return res.status(404).json({ 'Error': 'Day not found' });
+        }
+
+        // Check if the  experience exists in the day's experiences array
+        const index = day.DayExperiences.indexOf(expId);
+        if (index === -1) {
+            return res.status(404).json({ 'Error': 'Experience not found in the day' });
+        }
+
+        day.DayExperiences.splice(index, 1);
+        await trip.save();
+        res.status(204).end();
+    } catch (error) {
+        console.log(error);
+        res.status(500).json({ 'Error': 'Unable to delete experience from day' });
+    }
+});
+
+// Move an Experience from one Day of a Trip to another
+routerTrips.put('/:tripId/:dayId1/:dayId2/:expId', async (req, res) => {
+    try {
+      const { tripId, dayId1, dayId2, expId } = req.params;
+  
+      const trip = await Trip.findById(tripId);
+      if (!trip) {
+        return res.status(404).json({ 'Error': 'Trip not found' });
+      }
+  
+      const day1 = trip.TripDays.find(day => day._id.toString() === dayId1);
+      const day2 = trip.TripDays.find(day => day._id.toString() === dayId2);
+      if (!day1 || !day2) {
+        return res.status(404).json({ 'Error': 'One or both days not found' });
+      }
+  
+      const index = day1.DayExperiences.indexOf(expId);
+      if (index === -1) {
+        return res.status(404).json({ 'Error': 'Experience not found in the specified day' });
+      }
+  
+      const experience = day1.DayExperiences.splice(index, 1)[0];
+      day2.DayExperiences.push(experience);
+  
+      await trip.save();
+  
+      res.status(200).json(trip);
+    } catch (error) {
+      console.log(error);
+      res.status(500).json({ 'Error': 'Unable to move experience' });
+    }
+  });
+  
 export { routerTrips, routerExperiences };
