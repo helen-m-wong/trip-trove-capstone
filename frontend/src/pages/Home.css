@@ -1,0 +1,23 @@
+@import url('https://fonts.googleapis.com/css2?family=Open+Sans:wght@300&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Bitter:wght@500&family=Montserrat:wght@500&family=Open+Sans:wght@600&display=swap');
+
+* {
+    font-family: "Open Sans", sans-serif;
+}
+
+
+body{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    background: url('home.jpeg') no-repeat;
+    background-size: cover;
+    background-position: center;
+}
+
+
+h2{
+    font-size: 70px;
+    text-align: center;
+}
