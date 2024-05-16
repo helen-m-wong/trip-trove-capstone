@@ -26,10 +26,21 @@ function Trips() {
     return (
         <>
             <h2>Trips</h2>
-            <Link to="/trips/add">Add Trip</Link>
+            <Link to="/trips/add"
+            style={{
+                    display: 'inline-block',
+                    padding: '10px 20px',
+                    backgroundColor: 'white',
+                    color: 'black',
+                    fontWeight: 'bold',
+                    textDecoration: 'none',
+                    border: 'none',
+                    borderRadius: '5px',
+                }}>   
+            Add Trip</Link>
             {trips.map((trip) => (
                 <div key={trip._id}>
-                    <Link to={`/trips/${trip._id}`}>
+                    <Link to={`/trips/${trip._id}`} style={{ color: 'black' }}>
                         <h3>{trip.TripName}</h3>
                     </Link>
                 </div>
