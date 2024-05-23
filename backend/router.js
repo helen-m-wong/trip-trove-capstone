@@ -147,7 +147,7 @@ routerExperiences.get('/', async (req, res) => {
 
         if (keyword) {
             // Case-insensitive search
-            const regex = new RegExperience(keyword, 'i');
+            const regex = new RegExp(keyword, 'i');
 
             // Find experiences where the name or description matches the keyword
             const experiences = await Experience.find({
