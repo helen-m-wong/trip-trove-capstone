@@ -1,0 +1,111 @@
+.section {
+  height: 100vh;
+  background-size: auto;
+  background-position: center;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+}
+
+.content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.title {
+  /* Style the title text */
+  font-family: 'DM Sans', sans-serif;
+  font-size: 88px;
+  color: white; /* Adjust as needed */
+  font-weight: 200;
+}
+
+.subtitle {
+  /* Style for the subtitle in the second section */
+  font-family: 'DM Sans', sans-serif;
+  font-size: 88px;
+  color: white; 
+  font-weight: 200;
+}
+
+.searchBar {
+  margin-top: 20px;
+  display: flex;
+  align-items: center;
+  border: none; /* Border to encapsulate both input and button */
+  border-radius: 30px; /* Rounded corners */
+  width: 460px; /* Width of the search bar container */
+}
+
+.searchInput {
+  width: 100%;
+  height: 52px;
+  border: none;
+  padding: 0 20px;
+  border-top-left-radius: 30px;
+  border-bottom-left-radius: 30px;
+  font-size: 16px;
+}
+
+.searchButton {
+  width: 164px;
+  height: 52px;
+  border: none;
+  background-color: #98DB2E; /* Customize as needed */
+  color: white;
+  font-family: Manrope;
+  font-size: 16px;
+  color: #354E0D;
+  cursor: pointer;
+  border-top-right-radius: 30px;
+  border-bottom-right-radius: 30px;
+}
+
+.button-container {
+  position: absolute;
+  bottom: 20px; /* Adjust as needed */
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  background-color: none;
+}
+
+.arrow-button {
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  background-color: none;
+  border: none;
+  font-size: 24px;
+  cursor: pointer;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.carouselHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.carouselHeaderText {
+  font-family: 'DM Sans', sans-serif;
+  font-size: 52px;
+  color: #171A1F;
+  margin-right: 450px; /* Pushes the text to the left */
+}
+
+.carouselButtons {
+  display: flex;
+  margin-left: 450px; /* Pushes the buttons to the right */
+}
+
+.carouselButton {
+  width: 60px;
+  height: 60px;
+  margin-left: 10px;
+}
