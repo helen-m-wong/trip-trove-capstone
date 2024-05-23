@@ -4,7 +4,21 @@ import { useNavigate } from "react-router-dom";
 function AddExperience() {
     const [experienceName, setExperienceName] = useState('');
     const [experienceDescription, setExperienceDescription] = useState('');
+    const [image, setImage] = useState('');
     const navigate = useNavigate();
+
+    const convertToBase64 = (e) => {
+        console.log(e);
+        const reader = new FileReader();
+        reader.readAsDataURL(e.target.files[0]);
+        reader.onload = () => {
+            console.log(reader.result);
+            setImage(reader.result); // Preview image
+        };
+        reader.onerror = (error) => {
+            console.log("Error: ", error);
+        };
+    };
 
     const addExperience = async () => {
         try {
@@ -15,7 +29,8 @@ function AddExperience() {
                 },
                 body: JSON.stringify({
                     ExperienceName: experienceName,
-                    ExperienceDescription: experienceDescription
+                    ExperienceDescription: experienceDescription,
+                    Image: image // modify this when implementing backend
                 })
             });
             console.log(res);
@@ -34,20 +49,20 @@ function AddExperience() {
     return (
         <div>
             <h2>Add Experience</h2>
-            <form onSubmit={(e) => {e.preventDefault();}}>
+            <form onSubmit={(e) => {e.preventDefault(); addExperience();}}>
                 <label htmlFor="experienceName" className="required">
-                    Experience Name:
+                    <b>Experience Name: </b>
                     <input
                         id="experienceName"
                         type="text"
                         value={experienceName}
                         onChange={(e) => setExperienceName(e.target.value)}
                         required
-                    />
+                    input/>
                 </label>
                 <br />
                 <label>
-                    Experience Description:
+                    <b>Experience Description: </b>
                     <input
                         id="experienceDescription"
                         type="text"
@@ -56,7 +71,18 @@ function AddExperience() {
                     />
                 </label>
                 <br />
-                <button type="submit" onClick={addExperience} id="submit">Add Experience</button>
+                <label>
+                    <b>Upload Image: </b>
+                    <input
+                        accept="image/*"
+                        type="file"
+                        onChange={convertToBase64}
+                    />
+                </label>
+                <br />
+                {image && <img width={100} height={100} src={image} alt="preview" />}
+                <br />
+                <button type="submit" id="submit">Add Experience</button>
             </form>
         </div>
     );
