@@ -1,0 +1,49 @@
+@import url('https://fonts.googleapis.com/css2?family=Manrope:wght@200&display=swap');
+
+.navbar {
+  background-color: #171A1F;
+  padding: 15px;
+  display: flex;
+  justify-content: space-between; /* Keeps icons on the right */
+  align-items: center;
+}
+
+.nav-options {
+  list-style: none;
+  display: flex;
+  flex: 1; /* Allows the nav-items to spread evenly */
+  justify-content: center; /* Centers the navigation text */
+  gap: 20px; /* Space between nav items */
+  font-family: 'Manrope', sans-serif;
+}
+
+.nav-item {
+  color: white;
+  text-decoration: none;
+  cursor: pointer;
+  transition: color 0.3s;
+}
+
+.nav-item:hover {
+  color: #98DB2E;
+}
+
+.nav-item.selected {
+  color: #98DB2E; /* The color for the selected nav item */
+}
+
+.icons {
+  display: flex;
+  gap: 15px; /* Space between icons */
+}
+
+.icon {
+  width: 26px;
+  height: 26px;
+  cursor: pointer;
+  transition: transform 0.3s;
+}
+
+.icon:hover {
+  transform: scale(1.1);
+}

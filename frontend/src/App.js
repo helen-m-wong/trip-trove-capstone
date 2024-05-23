@@ -1,24 +1,22 @@
 import React from 'react';
-import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 
-import './pages/Home.css';
-import'./App.css';
-import NavBar from './components/NavBar.js';
-import Home from './pages/Home.js';
-import Trips from './pages/Trips.js';
-import TripDetail from './pages/TripDetail.js';
-import AddTrip from './pages/AddTrip.js';
-import Experiences from './pages/Experiences.js';
-import ExperienceDetail from './pages/ExperienceDetail.js';
-import AddExperience from './pages/AddExperience.js';
+import Home from './pages/Home/Home';
+import Signup from './pages/Signup/Signup';
+import Header from './components/Header';
+import Footer from './components/Footer';
+import Trips from './pages/Trips/Trips.js';
+import TripDetail from './pages/Trips/TripDetail.js';
+import AddTrip from './pages/AddTrip/AddTrip.js';
+import Experiences from './pages/Experiences/Experiences.js';
+import ExperienceDetail from './pages/Experiences/ExperienceDetail.js';
+import AddExperience from './pages/AddExperience/AddExperience.js';
 
 function App() {
   return (
     <div className="App">
-      <BrowserRouter>
-
-        <NavBar />
-
+      <Router>
+        <Header />
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/trips" element={<Trips />} />
@@ -27,8 +25,10 @@ function App() {
           <Route path="/experiences" element={<Experiences />} />
           <Route path="/experiences/:id" element={<ExperienceDetail />} />
           <Route path="/experiences/add" element={<AddExperience />} />
+          <Route path="/signup" element={<Signup />} />
         </Routes>
-      </BrowserRouter>
+        <Footer />
+      </Router>
     </div>
   );
 }

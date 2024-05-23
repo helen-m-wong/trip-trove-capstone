@@ -1,0 +1,67 @@
+.section {
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+  }
+  
+  .content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+  
+  .carouselHeader {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+  }
+  
+  .carouselHeaderText {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 52px;
+    color: #171A1F;
+    margin-right: 450px; /* Pushes the text to the left */
+  }
+  
+  .carouselButtons {
+    display: flex;
+    margin-left: 450px; /* Pushes the buttons to the right */
+  }
+  
+  .carouselButton {
+    width: 60px;
+    height: 60px;
+    margin-left: 10px;
+    cursor: pointer;
+  }
+  
+  .carousel {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  
+  .carouselItem {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin: 0 10px;
+  }
+  
+  .carouselImage {
+    width: 300px;
+    height: 200px;
+    object-fit: cover;
+    border-radius: 10px;
+  }
+  
+  .imageTitle {
+    margin-top: 10px;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 18px;
+    color: #171A1F;
+  }
+  

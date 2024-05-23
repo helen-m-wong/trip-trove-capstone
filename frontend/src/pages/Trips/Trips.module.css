@@ -1,0 +1,143 @@
+.tour-details {
+    padding: 20px;
+    background-color: #f9f9f9;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    max-width: 800px;
+    margin: 0 auto;
+  }
+  
+  .tour-details h1 {
+    font-size: 2.5em;
+    margin-bottom: 10px;
+    color: #333;
+  }
+  
+  .tour-details p {
+    font-size: 1.2em;
+    margin-bottom: 20px;
+    color: #666;
+  }
+  
+  .days-list {
+    margin-top: 20px;
+  }
+  
+  .day {
+    margin-bottom: 20px;
+  }
+  
+  .day h2 {
+    font-size: 1.8em;
+    margin-bottom: 10px;
+    color: #444;
+  }
+  
+  .experiences-list {
+    list-style-type: none;
+    padding: 0;
+  }
+  
+  .experiences-list li {
+    font-size: 1.2em;
+    margin: 5px 0;
+    color: #555;
+  }
+  
+  .loading,
+  .error {
+    text-align: center;
+    font-size: 1.5em;
+    color: #888;
+  }
+
+  .firstSection {
+    position: relative;
+    height: 100vh;
+    background: url('../../assets/images/tripimage1.jpg') no-repeat center center;
+    background-size: cover;
+    display: flex;
+    align-items: flex-end;
+    padding: 20px;
+    color: white;
+  }
+  
+  .textContainer {
+    max-width: 500px;
+    margin-left: 20px;
+  }
+  
+  .title {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 88px;
+    font-weight: lighter;
+    margin-bottom: 10px;
+  
+  }
+  
+  .subtitle {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 26px;
+    font-weight: lighter;
+  }
+  
+  /* Third section styling */
+  .thirdSection {
+    background-color: #F3F4F6;
+  }
+  
+  .section {
+    height: 100vh;
+    background-size: auto;
+    background-position: center;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+  }
+  
+  .content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+  
+  .carouselHeader {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    margin-bottom: 20px;
+  }
+  
+  .carouselHeaderText {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 52px;
+    color: #171A1F;
+  }
+  
+  .carouselButtons {
+    display: flex;
+  }
+  
+  .carouselButton {
+    width: 60px;
+    height: 60px;
+    margin-left: 10px;
+    cursor: pointer;
+  }
+  
+  .carousel {
+    display: flex;
+    overflow: hidden;
+    width: 100%;
+    justify-content: center;
+  }
+  
+  .carouselImage {
+    max-width: 30%;
+    margin: 0 10px;
+    transition: transform 0.5s ease-in-out;
+  }
+  
+  
