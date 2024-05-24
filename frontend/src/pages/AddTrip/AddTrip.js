@@ -5,10 +5,11 @@ function AddTrip() {
     const [tripName, setTripName] = useState('');
     const [tripDescription, setTripDescription] = useState('');
     const navigate = useNavigate();
+    const API_URL = "http://localhost:3000/";
 
     const addTrip = async () => {
         try {
-            const res = await fetch('/trips', {
+            const res = await fetch(API_URL + 'trips', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'

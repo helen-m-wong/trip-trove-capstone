@@ -1,14 +1,102 @@
 import express from "express";
 import Trip from './Models/trips.js';
 import Experience from './Models/experiences.js';
+// import { checkJwt, authErrorHandler } from './auth.js';
 
 const routerTrips = express.Router();
 const routerExperiences = express.Router();
 
+// Public Routes
+
+// Get all Trips
+routerTrips.get('/', async (req, res) => {
+    try {
+        const trips = await Trip.find({});
+        res.status(200).json(trips);
+    } catch (error) {
+        console.log(error);
+        res.status(500).json({ 'Error': 'Unable to get trips' });
+    }
+});
+
+// Get a Trip by ID
+routerTrips.get('/:id', async (req, res) => {
+    try {
+        const trip = await Trip.findById(req.params.id);
+        res.status(200).json(trip);
+    } catch (error) {
+        console.log(error);
+        res.status(500).json({ 'Error': 'Unable to find trip'});
+    }
+});
+
+// View Day of a Trip
+routerTrips.get('/:tripId/:dayId', async (req, res) => {
+    try {
+        const tripId = req.params.tripId;
+        const dayId = req.params.dayId;
+        const trip = await Trip.findById(tripId);
+        const day = trip.TripDays.find(day => day._id.toString() === dayId);
+       res.status(200).json(day);
+    } catch (error) {
+        console.log(error);
+        res.status(500).json({ 'Error': 'Unable to find day of this trip'});
+    }
+});
+
+// Get all experiences, performs search if there is a query
+routerExperiences.get('/', async (req, res) => {
+    try {
+        const { keyword } = req.query;
+
+        if (keyword) {
+            // Case-insensitive search
+            const regex = new RegExp(keyword, 'i');
+
+            // Find experiences where the name or description matches the keyword
+            const experiences = await Experience.find({
+                $or: [
+                    { ExperienceName: { $regex: regex } },
+                    { ExperienceDescription: { $regex: regex } }
+                ]
+            });
+
+            res.status(200).json(experiences);
+        } else {
+            // Return all experiences if no keyword provided
+            const allExperiences = await Experience.find({});
+            res.status(200).json(allExperiences);
+        }
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ 'Error': 'Unable to fetch experiences' });
+    }
+});
+
+// Get an Experience by ID
+routerExperiences.get('/:id', async (req, res) => {
+    try {
+        const experience = await Experience.findById(req.params.id);
+        res.status(200).json(experience);
+    } catch (error) {
+        console.log(error);
+        res.status(500).json({ 'Error': 'Unable to find experience'});
+    }
+});
+
+// Private Routes (requires authentication)
+  
 // Create a new Trip
 routerTrips.post('/', async (req, res) => {
     try {
         const { TripName, TripDescription } = req.body;
+
+        /*
+        uncomment when implementing auth
+        const sub = req.auth.sub;
+        const userId = sub.split('|')[1];
+        console.log(sub);
+        */
 
         const newTrip = new Trip({
             TripName,
@@ -30,6 +118,18 @@ routerTrips.post('/:id/add-day', async (req, res) => {
     try {
         const tripId = req.params.id;
         const trip = await Trip.findById(tripId);
+
+        if (!trip) {
+            return res.status(404).json({ 'Error': 'Trip not found' });
+        }
+        
+        /*
+        for auth
+        if (trip.userId !== req.auth.sub.split('|')[1]) {
+            return res.status(403).json({ 'Error': 'You are not authorized to add a day to this trip' });
+        }
+        */
+
         const newDayNumber = trip.TripDays.length + 1;
 
         const newDay = {
@@ -46,42 +146,6 @@ routerTrips.post('/:id/add-day', async (req, res) => {
     } catch (error) {
         console.log(error);
         res.status(500).json({ 'Error': 'Unable to add day to trip' });
-    }
-});
-
-// View Day of a Trip
-routerTrips.get('/:tripId/:dayId', async (req, res) => {
-    try {
-        const tripId = req.params.tripId;
-        const dayId = req.params.dayId;
-        const trip = await Trip.findById(tripId);
-        const day = trip.TripDays.find(day => day._id.toString() === dayId);
-       res.status(200).json(day);
-    } catch (error) {
-        console.log(error);
-        res.status(500).json({ 'Error': 'Unable to find day of this trip'});
-    }
-});
-
-// Get all Trips
-routerTrips.get('/', async (req, res) => {
-    try {
-        const trips = await Trip.find({});
-        res.status(200).json(trips);
-    } catch (error) {
-        console.log(error);
-        res.status(500).json({ 'Error': 'Unable to get trips' });
-    }
-});
-
-// Get a Trip by ID
-routerTrips.get('/:id', async (req, res) => {
-    try {
-        const trip = await Trip.findById(req.params.id);
-        res.status(200).json(trip);
-    } catch (error) {
-        console.log(error);
-        res.status(500).json({ 'Error': 'Unable to find trip'});
     }
 });
 
@@ -139,47 +203,6 @@ routerTrips.delete('/:tripId/delete-day', async (req, res) => {
     }
 });
 
-
-// Get all experiences, performs search if there is a query
-routerExperiences.get('/', async (req, res) => {
-    try {
-        const { keyword } = req.query;
-
-        if (keyword) {
-            // Case-insensitive search
-            const regex = new RegExp(keyword, 'i');
-
-            // Find experiences where the name or description matches the keyword
-            const experiences = await Experience.find({
-                $or: [
-                    { ExperienceName: { $regex: regex } },
-                    { ExperienceDescription: { $regex: regex } }
-                ]
-            });
-
-            res.status(200).json(experiences);
-        } else {
-            // Return all experiences if no keyword provided
-            const allExperiences = await Experience.find({});
-            res.status(200).json(allExperiences);
-        }
-    } catch (error) {
-        console.error(error);
-        res.status(500).json({ 'Error': 'Unable to fetch experiences' });
-    }
-});
-
-// Get an Experience by ID
-routerExperiences.get('/:id', async (req, res) => {
-    try {
-        const experience = await Experience.findById(req.params.id);
-        res.status(200).json(experience);
-    } catch (error) {
-        console.log(error);
-        res.status(500).json({ 'Error': 'Unable to find experience'});
-    }
-});
-
 // Create a new Experience
 routerExperiences.post('/', async (req, res) => {
     try {
@@ -230,7 +253,6 @@ routerExperiences.delete('/:id', async (req, res) => {
         res.status(500).json({ 'Error': 'Unable to delete experience'});
     }
 });
-
 
 // Add an Experience to a Day of a Trip
 routerTrips.post('/:tripId/:dayId/:expId', async (req, res) => {

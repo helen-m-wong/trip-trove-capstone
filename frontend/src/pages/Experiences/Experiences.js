@@ -40,9 +40,10 @@ class Experiences extends Component {
 
   async refreshExperiences() {
     try {
-      const response = await fetch(this.API_URL + "api/test/GetExperiences");
+      const response = await fetch(this.API_URL + "experiences");
       const data = await response.json();
       this.setState({ experiences: data });
+      console.log(data);
     } catch (error) {
       console.error("Error fetching experiences:", error);
     }

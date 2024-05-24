@@ -5,10 +5,11 @@ function AddExperience() {
     const [experienceName, setExperienceName] = useState('');
     const [experienceDescription, setExperienceDescription] = useState('');
     const navigate = useNavigate();
+    const API_URL = "http://localhost:3000/";
 
     const addExperience = async () => {
         try {
-            const res = await fetch('/experiences', {
+            const res = await fetch(API_URL + 'experiences', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'
