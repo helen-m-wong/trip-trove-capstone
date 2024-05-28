@@ -24,13 +24,19 @@ function ExperienceDetail() {
         getExperience();
     }, [id]);
 
-
     return (
         <>
             {experience && (
                 <div>
                     <h2>{experience.ExperienceName}</h2>
                     <p>{experience.ExperienceDescription}</p> 
+                    {experience.ExperienceImage && (
+                        <img
+                            src={experience.ExperienceImage}
+                            alt="experience" 
+                            style={{ maxWidth: '50%', maxHeight: '50%', width: 'auto', height: 'auto' }}
+                        />
+                    )}
                 </div>
             )}
         </>

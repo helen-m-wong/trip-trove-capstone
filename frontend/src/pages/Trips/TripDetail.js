@@ -47,6 +47,13 @@ function TripDetail() {
         <>
             {trip && (
                 <div>
+                    {trip.TripImage && (
+                        <img
+                            src={trip.TripImage}
+                            alt="trip" 
+                            style={{ maxWidth: '50%', maxHeight: '50%', width: 'auto', height: 'auto' }}
+                        />
+                    )}
                     <h2>{trip.TripName}</h2>
                     <p>{trip.TripDescription}</p>
                     {trip.TripDays.map((day) => (

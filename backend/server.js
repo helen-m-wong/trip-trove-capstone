@@ -12,7 +12,8 @@ connectDB();
 
 app.enable('trust proxy');
 app.use(cors());
-app.use(bodyParser.json());
+app.use(bodyParser.json({ limit: '10mb' }));
+app.use(bodyParser.urlencoded({ limit: '10mb', extended: true }));
 
 app.use('/trips', routerTrips);
 app.use('/experiences', routerExperiences);

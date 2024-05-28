@@ -89,7 +89,7 @@ routerExperiences.get('/:id', async (req, res) => {
 // Create a new Trip
 routerTrips.post('/', async (req, res) => {
     try {
-        const { TripName, TripDescription } = req.body;
+        const { TripName, TripDescription, TripImage } = req.body;
 
         /*
         uncomment when implementing auth
@@ -101,9 +101,10 @@ routerTrips.post('/', async (req, res) => {
         const newTrip = new Trip({
             TripName,
             TripDescription,
-            TripDays: []
+            TripDays: [],
+            TripImage
         });
-
+        
         await newTrip.save();
         res.status(201).json(newTrip);
 
@@ -206,11 +207,12 @@ routerTrips.delete('/:tripId/delete-day', async (req, res) => {
 // Create a new Experience
 routerExperiences.post('/', async (req, res) => {
     try {
-        const { ExperienceName, ExperienceDescription } = req.body;
+        const { ExperienceName, ExperienceDescription, ExperienceImage } = req.body;
 
         const newExperience = new Experience({
             ExperienceName,
-            ExperienceDescription
+            ExperienceDescription,
+            ExperienceImage
         });
 
         await newExperience.save();
