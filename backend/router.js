@@ -227,11 +227,11 @@ routerExperiences.post('/', async (req, res) => {
 // Update Experience
 routerExperiences.put('/:id', async (req, res) => {
     try {
-        const { ExperienceName, ExperienceDescription } = req.body;
+        const { ExperienceName, ExperienceDescription, ExperienceImage } = req.body;
 
         const updatedExp = await Experience.findByIdAndUpdate(
             req.params.id,
-            { ExperienceName, ExperienceDescription },
+            { ExperienceName, ExperienceDescription, ExperienceImage },
             { new: true });
 
         if (updatedExp) {

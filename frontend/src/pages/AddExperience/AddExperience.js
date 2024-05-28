@@ -36,7 +36,6 @@ function AddExperience() {
     };
 
     const convertToBase64 = (e) => {
-        console.log(e);
         const reader = new FileReader();
         reader.readAsDataURL(e.target.files[0]);
         reader.onload = () => {
@@ -65,13 +64,13 @@ function AddExperience() {
                 <br />
                 <label htmlFor="experienceDescription" className="required">
                     Experience Description:
-                    <input
+                    <textarea
                         id="experienceDescription"
                         type="text"
                         value={experienceDescription}
                         onChange={(e) => setExperienceDescription(e.target.value)}
                         required
-                    />
+                    ></textarea>
                 </label>
                 <br />
                 <label>
