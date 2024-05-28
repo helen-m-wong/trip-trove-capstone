@@ -7,6 +7,7 @@ import Header from './components/Header';
 import Footer from './components/Footer';
 import Trips from './pages/Trips/Trips.js';
 import TripDetail from './pages/Trips/TripDetail.js';
+import EditTrip from './pages/Trips/EditTrip.js';
 import AddTrip from './pages/AddTrip/AddTrip.js';
 import Experiences from './pages/Experiences/Experiences.js';
 import ExperienceDetail from './pages/Experiences/ExperienceDetail.js';
@@ -23,6 +24,7 @@ function App() {
           <Route path="/trips" element={<Trips />} />
           <Route path="/trips/:id" element={<TripDetail />} />
           <Route path="/trips/add" element={<AddTrip />} />
+          <Route path="/trips/:id/edit" element={<EditTrip />} />
           <Route path="/experiences" element={<Experiences />} />
           <Route path="/experiences/:id" element={<ExperienceDetail />} />
           <Route path="/experiences/add" element={<AddExperience />} />

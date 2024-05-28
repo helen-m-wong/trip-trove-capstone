@@ -153,11 +153,11 @@ routerTrips.post('/:id/add-day', async (req, res) => {
 // Update Trip
 routerTrips.put('/:id', async (req, res) => {
     try {
-        const { TripName, TripDescription } = req.body;
+        const { TripName, TripDescription, TripImage } = req.body;
 
         const updatedTrip = await Trip.findByIdAndUpdate(
             req.params.id,
-            { TripName, TripDescription },
+            { TripName, TripDescription, TripImage },
             { new: true });
 
         if (updatedTrip) {

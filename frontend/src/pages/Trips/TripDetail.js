@@ -1,9 +1,10 @@
 import React, { useState, useEffect } from 'react';
-import { useParams } from 'react-router-dom';
+import { useParams, useNavigate } from 'react-router-dom';
 
 function TripDetail() {
     const { id } = useParams();
     const [trip, setTrip] = useState(null);
+    const navigate = useNavigate();
     const API_URL = "http://localhost:3000/";
 
     useEffect(() => {
@@ -43,6 +44,36 @@ function TripDetail() {
         }
     };
 
+    const deleteTrip = async () => {
+        const confirmation = window.confirm("Are you sure you want to delete this trip?");
+        if (confirmation) {
+            try {
+                const response = await fetch(API_URL + `trips/${id}`, {
+                    method: 'DELETE'
+                });
+                if (response.status === 204) {
+                    console.log("Trip deleted successfully")
+                    navigate("/trips");
+                } else if (response.status === 403) {
+                    window.alert("Forbidden");
+                    // add 403 error in router.js backend, user can't delete trip that isn't their own
+                } else {
+                    console.log("Error deleting trip");
+                }
+            } catch (error) {
+                console.log(error);
+            }
+        }
+    };
+
+    const handleEditTrip = () => {
+        navigate(`/trips/${id}/edit`);
+    };
+
+    if (!trip) {
+        return <div>Loading...</div>;
+    }
+
     return (
         <>
             {trip && (
@@ -55,6 +86,8 @@ function TripDetail() {
                         />
                     )}
                     <h2>{trip.TripName}</h2>
+                    <button onClick={handleEditTrip}>Edit</button>
+                    <button onClick={deleteTrip}>Delete</button>
                     <p>{trip.TripDescription}</p>
                     {trip.TripDays.map((day) => (
                         <div key={day._id}>
