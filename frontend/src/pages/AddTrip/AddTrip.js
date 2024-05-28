@@ -4,18 +4,22 @@ import { useNavigate } from "react-router-dom";
 function AddTrip() {
     const [tripName, setTripName] = useState('');
     const [tripDescription, setTripDescription] = useState('');
+    const [tripImage, setTripImage] = useState('');
     const navigate = useNavigate();
+    const API_URL = "http://localhost:3000/";
 
-    const addTrip = async () => {
+    const addTrip = async (event) => {
+        event.preventDefault();
         try {
-            const res = await fetch('/trips', {
+            const res = await fetch(API_URL + 'trips', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'
                 },
                 body: JSON.stringify({
                     TripName: tripName,
-                    TripDescription: tripDescription
+                    TripDescription: tripDescription,
+                    TripImage: tripImage
                 })
             });
             console.log(res);
@@ -31,10 +35,22 @@ function AddTrip() {
         }
     };
 
+    const convertToBase64 = (e) => {
+        const reader = new FileReader();
+        reader.readAsDataURL(e.target.files[0]);
+        reader.onload = () => {
+            console.log(reader.result);
+            setTripImage(reader.result); // Preview image
+        };
+        reader.onerror = (error) => {
+            console.log("Error: ", error);
+        };
+    };
+
     return (
         <div>
             <h2>Add Trip</h2>
-            <form onSubmit={(e) => {e.preventDefault();}}>
+            <form onSubmit={addTrip}>
                 <label htmlFor="tripName" className="required">
                     Trip Name:
                     <input
@@ -56,7 +72,18 @@ function AddTrip() {
                     />
                 </label>
                 <br />
-                <button type="submit" onClick={addTrip} id="submit">Add Trip</button>
+                <label>
+                    <b>Upload Image: </b>
+                    <input
+                        accept="image/*"
+                        type="file"
+                        onChange={convertToBase64}
+                    />
+                </label>
+                <br />
+                {tripImage && <img width={100} height={100} src={tripImage} alt="preview" />}
+                <br />
+                <button type="submit" id="submit">Add Trip</button>
             </form>
         </div>
     );
