@@ -35,7 +35,9 @@ function TripDetail() {
             });
             if (res.status === 201) {
                 console.log('Day added successfully');
-                window.location.reload();
+                const updatedTrip = await fetch(API_URL + `trips/${id}`);
+                const data = await updatedTrip.json();
+                setTrip(data);
             } else {
                 console.error('Error adding day');
             }
@@ -52,13 +54,37 @@ function TripDetail() {
                     method: 'DELETE'
                 });
                 if (response.status === 204) {
-                    console.log("Trip deleted successfully")
+                    console.log("Trip deleted successfully");
                     navigate("/trips");
                 } else if (response.status === 403) {
                     window.alert("Forbidden");
                     // add 403 error in router.js backend, user can't delete trip that isn't their own
                 } else {
                     console.log("Error deleting trip");
+                }
+            } catch (error) {
+                console.log(error);
+            }
+        }
+    };
+
+    const deleteDay = async () => {
+        const confirmation = window.confirm("Are you sure you want to delete the most recently added day? This will also delete all experiences in the day.");
+        if (confirmation) {
+            try {
+                const response = await fetch(API_URL + `trips/${id}/delete-day`, {
+                    method: 'DELETE'
+                });
+                if (response.status === 204) {
+                    console.log("Last day deleted successfully");
+                    const updatedTrip = await fetch(API_URL + `trips/${id}`);
+                    const data = await updatedTrip.json();
+                    setTrip(data);
+                } else if (response.status === 403) {
+                    window.alert("Forbidden");
+                    // add 403 error in router.js backend, user can't delete trip that isn't their own
+                } else {
+                    console.log("Error deleting day");
                 }
             } catch (error) {
                 console.log(error);
@@ -87,7 +113,8 @@ function TripDetail() {
                     )}
                     <h2>{trip.TripName}</h2>
                     <button onClick={handleEditTrip}>Edit</button>
-                    <button onClick={deleteTrip}>Delete</button>
+                    <button onClick={deleteTrip}>Delete Trip</button>
+                    {trip.TripDays.length > 0 && <button onClick={deleteDay}>Delete Day</button>}
                     <p>{trip.TripDescription}</p>
                     {trip.TripDays.map((day) => (
                         <div key={day._id}>
