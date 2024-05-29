@@ -22,7 +22,10 @@ routerTrips.get('/', async (req, res) => {
 // Get a Trip by ID
 routerTrips.get('/:id', async (req, res) => {
     try {
-        const trip = await Trip.findById(req.params.id);
+        const trip = await Trip.findById(req.params.id).populate({
+            path: 'TripDays.DayExperiences',
+            model: 'Experience'
+        });
         res.status(200).json(trip);
     } catch (error) {
         console.log(error);
@@ -30,7 +33,7 @@ routerTrips.get('/:id', async (req, res) => {
     }
 });
 
-// View Day of a Trip
+// View Day of a Trip - probably not needed, delete later
 routerTrips.get('/:tripId/:dayId', async (req, res) => {
     try {
         const tripId = req.params.tripId;
@@ -153,11 +156,11 @@ routerTrips.post('/:id/add-day', async (req, res) => {
 // Update Trip
 routerTrips.put('/:id', async (req, res) => {
     try {
-        const { TripName, TripDescription } = req.body;
+        const { TripName, TripDescription, TripImage } = req.body;
 
         const updatedTrip = await Trip.findByIdAndUpdate(
             req.params.id,
-            { TripName, TripDescription },
+            { TripName, TripDescription, TripImage },
             { new: true });
 
         if (updatedTrip) {
@@ -227,11 +230,11 @@ routerExperiences.post('/', async (req, res) => {
 // Update Experience
 routerExperiences.put('/:id', async (req, res) => {
     try {
-        const { ExperienceName, ExperienceDescription } = req.body;
+        const { ExperienceName, ExperienceDescription, ExperienceImage } = req.body;
 
         const updatedExp = await Experience.findByIdAndUpdate(
             req.params.id,
-            { ExperienceName, ExperienceDescription },
+            { ExperienceName, ExperienceDescription, ExperienceImage },
             { new: true });
 
         if (updatedExp) {

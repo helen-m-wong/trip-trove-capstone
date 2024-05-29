@@ -1,9 +1,11 @@
 import React, { useState, useEffect } from 'react';
-import { useParams } from 'react-router-dom';
+import { useParams, useNavigate, Link } from 'react-router-dom';
 
 function TripDetail() {
     const { id } = useParams();
     const [trip, setTrip] = useState(null);
+    const [openDays, setOpenDays] = useState({});
+    const navigate = useNavigate();
     const API_URL = "http://localhost:3000/";
 
     useEffect(() => {
@@ -34,7 +36,9 @@ function TripDetail() {
             });
             if (res.status === 201) {
                 console.log('Day added successfully');
-                window.location.reload();
+                const updatedTrip = await fetch(API_URL + `trips/${id}`);
+                const data = await updatedTrip.json();
+                setTrip(data);
             } else {
                 console.error('Error adding day');
             }
@@ -42,6 +46,90 @@ function TripDetail() {
             console.log(error);
         }
     };
+
+    const deleteTrip = async () => {
+        const confirmation = window.confirm("Are you sure you want to delete this trip?");
+        if (confirmation) {
+            try {
+                const response = await fetch(API_URL + `trips/${id}`, {
+                    method: 'DELETE'
+                });
+                if (response.status === 204) {
+                    console.log("Trip deleted successfully");
+                    navigate("/trips");
+                } else if (response.status === 403) {
+                    window.alert("Forbidden");
+                    // add 403 error in router.js backend, user can't delete trip that isn't their own
+                } else {
+                    console.log("Error deleting trip");
+                }
+            } catch (error) {
+                console.log(error);
+            }
+        }
+    };
+
+    const deleteDay = async () => {
+        const confirmation = window.confirm("Are you sure you want to delete the most recently added day? This will also delete all experiences in the day.");
+        if (confirmation) {
+            try {
+                const response = await fetch(API_URL + `trips/${id}/delete-day`, {
+                    method: 'DELETE'
+                });
+                if (response.status === 204) {
+                    console.log("Last day deleted successfully");
+                    const updatedTrip = await fetch(API_URL + `trips/${id}`);
+                    const data = await updatedTrip.json();
+                    setTrip(data);
+                } else if (response.status === 403) {
+                    window.alert("Forbidden");
+                    // add 403 error in router.js backend, user can't delete trip that isn't their own
+                } else {
+                    console.log("Error deleting day");
+                }
+            } catch (error) {
+                console.log(error);
+            }
+        }
+    };
+
+    const handleEditTrip = () => {
+        navigate(`/trips/${id}/edit`);
+    };
+
+    const toggleDay = (dayNumber) => {
+        setOpenDays((prevOpenDays) => ({
+            ...prevOpenDays,
+            [dayNumber]: !prevOpenDays[dayNumber],
+        }));
+    };
+
+    const removeExperience = async (dayId, expId) => {
+        const confirmation = window.confirm("Are you sure you want to remove this experience?");
+        if (confirmation) {
+            try {
+                const response = await fetch(API_URL + `trips/${id}/${dayId}/${expId}`, {
+                    method: 'DELETE'
+                });
+                if (response.status === 204) {
+                    console.log("Experience removed successfully");
+                    const updatedTrip = await fetch(API_URL + `trips/${id}`);
+                    const data = await updatedTrip.json();
+                    setTrip(data);
+                } else if (response.status === 403) {
+                    window.alert("Forbidden");
+                } else {
+                    console.log("Error removing experience");
+                }
+            } catch (error) {
+                console.log(error);
+            }
+        }
+    };
+
+    if (!trip) {
+        return <div>Loading...</div>;
+    }
 
     return (
         <>
@@ -55,18 +143,36 @@ function TripDetail() {
                         />
                     )}
                     <h2>{trip.TripName}</h2>
+                    <button onClick={handleEditTrip}>Edit</button>
+                    <button onClick={deleteTrip}>Delete Trip</button>
+                    {trip.TripDays.length > 0 && <button onClick={deleteDay}>Delete Day</button>}
                     <p>{trip.TripDescription}</p>
                     {trip.TripDays.map((day) => (
                         <div key={day._id}>
-                            <p>Day {day.DayNumber}</p>
-                            <p>Experiences:</p>
-                            {day.DayExperiences.map((experience) => (
-                                <div key={experience._id}>
-                                    {/* Show experiences once implemented */}
+                            <div>
+                                <p>Day {day.DayNumber}</p>
+                                <button onClick={() => toggleDay(day.DayNumber)}>
+                                    {openDays[day.DayNumber] ? 'Hide Experiences' : 'Show Experiences'}
+                                </button>
+                            </div>
+                            {openDays[day.DayNumber] && (
+                                <div>
+                                    {day.DayExperiences.length > 0 ? (
+                                        day.DayExperiences.map((experience) => (
+                                            <div key={experience._id}>
+                                                <Link to={`/experiences/${experience._id}`}>{experience.ExperienceName}</Link>
+                                                <button onClick={() => removeExperience(day._id, experience._id)}>Remove Experience</button>
+                                                <p>{experience.ExperienceDescription}</p>
+                                            </div>
+                                        ))
+                                    ) : (
+                                        <p>No experiences added yet</p>
+                                    )}
                                 </div>
-                            ))}
+                            )}
                         </div>
                     ))}
+                    <br></br>
                     <button onClick={addDay}>Add Day</button>
                 </div>
             )}

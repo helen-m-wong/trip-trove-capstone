@@ -1,9 +1,10 @@
 import React, { useState, useEffect } from 'react';
-import { useParams } from 'react-router-dom';
+import { useParams, useNavigate } from 'react-router-dom';
 
 function ExperienceDetail() {
     const { id } = useParams();
     const [experience, setExperience] = useState(null);
+    const navigate = useNavigate();
     const API_URL = "http://localhost:3000/";
 
     useEffect(() => {
@@ -24,12 +25,40 @@ function ExperienceDetail() {
         getExperience();
     }, [id]);
 
+    const deleteExperience = async () => {
+        const confirmation = window.confirm("Are you sure you want to delete this experience?");
+        if (confirmation) {
+            try {
+                const response = await fetch(API_URL + `experiences/${id}`, {
+                    method: 'DELETE'
+                });
+                if (response.status === 204) {
+                    console.log("Experience deleted successfully")
+                    navigate("/experiences");
+                } else if (response.status === 403) {
+                    window.alert("Forbidden");
+                    // add 403 error in router.js backend, user can't delete experience that isn't their own
+                } else {
+                    console.log("Error deleting experience");
+                }
+            } catch (error) {
+                console.log(error);
+            }
+        }
+    };
+
+    const handleEditExperience = () => {
+        navigate(`/experiences/${id}/edit`);
+    };
+
+    if (!experience) {
+        return <div>Loading...</div>;
+    }
+
     return (
         <>
             {experience && (
                 <div>
-                    <h2>{experience.ExperienceName}</h2>
-                    <p>{experience.ExperienceDescription}</p> 
                     {experience.ExperienceImage && (
                         <img
                             src={experience.ExperienceImage}
@@ -37,6 +66,11 @@ function ExperienceDetail() {
                             style={{ maxWidth: '50%', maxHeight: '50%', width: 'auto', height: 'auto' }}
                         />
                     )}
+                    <h2>{experience.ExperienceName}</h2>
+                    <button onClick={handleEditExperience}>Edit</button>
+                    <button onClick={deleteExperience}>Delete</button>
+                    <p>{experience.ExperienceDescription}</p> 
+
                 </div>
             )}
         </>
