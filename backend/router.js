@@ -22,7 +22,10 @@ routerTrips.get('/', async (req, res) => {
 // Get a Trip by ID
 routerTrips.get('/:id', async (req, res) => {
     try {
-        const trip = await Trip.findById(req.params.id);
+        const trip = await Trip.findById(req.params.id).populate({
+            path: 'TripDays.DayExperiences',
+            model: 'Experience'
+        });
         res.status(200).json(trip);
     } catch (error) {
         console.log(error);
@@ -30,7 +33,7 @@ routerTrips.get('/:id', async (req, res) => {
     }
 });
 
-// View Day of a Trip
+// View Day of a Trip - probably not needed, delete later
 routerTrips.get('/:tripId/:dayId', async (req, res) => {
     try {
         const tripId = req.params.tripId;

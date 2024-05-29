@@ -64,12 +64,13 @@ function AddTrip() {
                 <br />
                 <label>
                     Trip Description:
-                    <input
+                    <textarea
                         id="tripDescription"
                         type="text"
                         value={tripDescription}
                         onChange={(e) => setTripDescription(e.target.value)}
-                    />
+                        required
+                    ></textarea>
                 </label>
                 <br />
                 <label>

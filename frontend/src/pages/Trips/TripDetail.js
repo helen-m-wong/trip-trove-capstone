@@ -1,9 +1,10 @@
 import React, { useState, useEffect } from 'react';
-import { useParams, useNavigate } from 'react-router-dom';
+import { useParams, useNavigate, Link } from 'react-router-dom';
 
 function TripDetail() {
     const { id } = useParams();
     const [trip, setTrip] = useState(null);
+    const [openDays, setOpenDays] = useState({});
     const navigate = useNavigate();
     const API_URL = "http://localhost:3000/";
 
@@ -96,6 +97,36 @@ function TripDetail() {
         navigate(`/trips/${id}/edit`);
     };
 
+    const toggleDay = (dayNumber) => {
+        setOpenDays((prevOpenDays) => ({
+            ...prevOpenDays,
+            [dayNumber]: !prevOpenDays[dayNumber],
+        }));
+    };
+
+    const removeExperience = async (dayId, expId) => {
+        const confirmation = window.confirm("Are you sure you want to remove this experience?");
+        if (confirmation) {
+            try {
+                const response = await fetch(API_URL + `trips/${id}/${dayId}/${expId}`, {
+                    method: 'DELETE'
+                });
+                if (response.status === 204) {
+                    console.log("Experience removed successfully");
+                    const updatedTrip = await fetch(API_URL + `trips/${id}`);
+                    const data = await updatedTrip.json();
+                    setTrip(data);
+                } else if (response.status === 403) {
+                    window.alert("Forbidden");
+                } else {
+                    console.log("Error removing experience");
+                }
+            } catch (error) {
+                console.log(error);
+            }
+        }
+    };
+
     if (!trip) {
         return <div>Loading...</div>;
     }
@@ -118,15 +149,30 @@ function TripDetail() {
                     <p>{trip.TripDescription}</p>
                     {trip.TripDays.map((day) => (
                         <div key={day._id}>
-                            <p>Day {day.DayNumber}</p>
-                            <p>Experiences:</p>
-                            {day.DayExperiences.map((experience) => (
-                                <div key={experience._id}>
-                                    {/* Show experiences once implemented */}
+                            <div>
+                                <p>Day {day.DayNumber}</p>
+                                <button onClick={() => toggleDay(day.DayNumber)}>
+                                    {openDays[day.DayNumber] ? 'Hide Experiences' : 'Show Experiences'}
+                                </button>
+                            </div>
+                            {openDays[day.DayNumber] && (
+                                <div>
+                                    {day.DayExperiences.length > 0 ? (
+                                        day.DayExperiences.map((experience) => (
+                                            <div key={experience._id}>
+                                                <Link to={`/experiences/${experience._id}`}>{experience.ExperienceName}</Link>
+                                                <button onClick={() => removeExperience(day._id, experience._id)}>Remove Experience</button>
+                                                <p>{experience.ExperienceDescription}</p>
+                                            </div>
+                                        ))
+                                    ) : (
+                                        <p>No experiences added yet</p>
+                                    )}
                                 </div>
-                            ))}
+                            )}
                         </div>
                     ))}
+                    <br></br>
                     <button onClick={addDay}>Add Day</button>
                 </div>
             )}
