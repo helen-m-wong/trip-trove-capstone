@@ -8,10 +8,19 @@ const routerExperiences = express.Router();
 
 // Public Routes
 
-// Get all Trips
+// Get all Trips or search Trips by name
 routerTrips.get('/', async (req, res) => {
     try {
-        const trips = await Trip.find({});
+        const { name } = req.query;
+
+        let trips;
+        if (name) {
+            const regex = new RegExp(name, 'i'); // Case-insensitive search
+            trips = await Trip.find({ TripName: { $regex: regex } });
+        } else {
+            trips = await Trip.find({});
+        }
+
         res.status(200).json(trips);
     } catch (error) {
         console.log(error);

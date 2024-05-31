@@ -85,27 +85,6 @@
   align-items: center;
 }
 
-.carouselHeader {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: 20px;
-}
-
-.carouselHeaderText {
-  font-family: 'DM Sans', sans-serif;
-  font-size: 52px;
-  color: #171A1F;
-  margin-right: 450px; /* Pushes the text to the left */
-}
-
-.carouselButtons {
-  display: flex;
-  margin-left: 450px; /* Pushes the buttons to the right */
-}
-
-.carouselButton {
-  width: 60px;
-  height: 60px;
-  margin-left: 10px;
+.carouselSection {
+  height: 944px; /* Set the height to 944 pixels */
 }

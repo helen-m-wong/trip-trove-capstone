@@ -1,0 +1,153 @@
+.section {
+  height: 100vh;
+  background-size: auto;
+  background-position: center;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+}
+
+.content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.container {
+    padding: 20px;
+  }
+
+  .bestDestinationsSection {
+    background-color: #171A1F;
+  }
+
+  .featuredExperienceSection {
+    background-color: #FFFFFF; 
+  }
+
+.destinationList {
+  width: 100%;
+}
+
+.bestDestinationsTitleSection {
+  font-family: 'DM Sans', sans-serif;
+  font-weight: 100;
+  font-size: 88px;
+  background-color: #171A1F;
+  text-align: center;
+  color: white;
+  margin: 0px;
+}
+
+.sectionTitle {
+  font-family: 'DM Sans', sans-serif;
+  font-size: 52px;
+  font-weight: 100;
+  color: #171A1F;
+}
+
+.countriesGrid {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 20px;
+}
+
+.country {
+  width: 150px;
+  text-align: center;
+}
+
+.country img {
+  width: 100%;
+  height: auto;
+  border-radius: 10px;
+}
+
+.featuredExperience {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 20px;
+}
+
+.largeImage {
+  width: 50%;
+  height: auto;
+  border-radius: 10px;
+}
+
+.smallImages {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.smallImages img {
+  width: 100%;
+  height: auto;
+  border-radius: 10px;
+}
+  
+  .tour-list {
+    list-style-type: none;
+    padding: 0;
+  }
+  
+  .tour-item {
+    margin: 10px 0;
+    padding: 15px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    background-color: #f9f9f9;
+    cursor: pointer;
+    transition: background-color 0.3s;
+  }
+  
+  .tour-item:hover {
+    background-color: #e0e0e0;
+  }
+  
+  .tour-title {
+    font-size: 1.5em;
+    color: #333;
+  }
+  
+  .tour-description {
+    color: #666;
+  }
+  
+  .tour-link {
+    text-decoration: none;
+    color: inherit;
+  }
+
+.carouselSection {
+  background-color: #F3F4F6;
+} 
+
+  .carouselHeader {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+  }
+  
+  .carouselHeaderText {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 52px;
+    color: #171A1F;
+    margin-right: 450px; /* Pushes the text to the left */
+  }
+  
+  .carouselButtons {
+    display: flex;
+    margin-left: 450px; /* Pushes the buttons to the right */
+  }
+  
+  .carouselButton {
+    width: 60px;
+    height: 60px;
+    margin-left: 10px;
+  }
