@@ -1,0 +1,78 @@
+.featureExperience {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+}
+  
+.content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+  
+.featureExperienceHeader {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    margin-bottom: 20px;
+}
+
+.featureExperienceHeaderText {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 52px;
+    color: #171A1F;
+}
+
+.featureExperienceButtons {
+    display: flex;
+}
+
+.featureExperienceButton {
+    width: 60px;
+    height: 60px;
+    margin-left: 10px;
+    cursor: pointer;
+}
+
+.featureExperienceSlides {
+    display: flex;
+    overflow: hidden;
+    width: 100%;
+    justify-content: center;
+}
+
+.featureExperienceSlide {
+    width: 376px;
+    height: 368px;
+    margin: 0 10px;
+    transition: transform 0.5s ease-in-out;
+}
+
+.featureExperienceSlide p{
+    color: #171A1F;
+    font-size: 30px;
+    font-family: 'DM Sans', sans-serif;
+    font-weight: bold;
+}
+
+.featureExperienceImage {
+    width: 100%;
+    height: auto;
+}
+
+.experienceInfo {
+    text-align: center;
+}
+
+.experienceTitle {
+    font-size: 24px;
+    font-weight: bold;
+    color: #171A1F;
+}
+
+.experienceDescription {
+    font-size: 16px;
+    color: #171A1F;
+}

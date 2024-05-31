@@ -1,61 +1,59 @@
-import React, { useState } from 'react';
-import styles from './Carousel.module.css';
-import leftButton from '../../assets/images/leftbutton.png'; 
-import rightButton from '../../assets/images/rightbutton.png'; 
+import React, { useState, useEffect } from 'react';
+import { Link } from 'react-router-dom';
+import styles from './Carousel.module.css'; // Importing the CSS module for carousel
+import leftButton from '../assets/images/leftbutton.png';
+import rightButton from '../assets/images/rightbutton.png';
 
-// Example images and titles
-import exampleImage1 from '../../assets/images/exampleimage1.png';
-import exampleImage2 from '../../assets/images/exampleimage2.png';
-import exampleImage3 from '../../assets/images/exampleimage3.png';
+const Carousel = ({ title }) => {
+    const [trips, setTrips] = useState([]);
+    const [currentIndex, setCurrentIndex] = useState(0);
 
-const images = [
-  { src: exampleImage1, title: "Destination 1" },
-  { src: exampleImage2, title: "Destination 2" },
-  { src: exampleImage3, title: "Destination 3" },
-  { src: exampleImage1, title: "Destination 4" },
-  { src: exampleImage2, title: "Destination 5" },
-];
+    useEffect(() => {
+        fetch('http://localhost:3000/trips')
+            .then(response => response.json())
+            .then(data => setTrips(data))
+            .catch(error => console.error('Error fetching trip data:', error));
+    }, []);
 
-const Carousel = () => {
-  const [currentIndex, setCurrentIndex] = useState(0);
+    const prevSlide = () => {
+        setCurrentIndex((prevIndex) => (prevIndex - 1 + trips.length) % trips.length);
+    };
 
-  const prevSlide = () => {
-    setCurrentIndex((prevIndex) => (prevIndex - 1 + images.length) % images.length);
-  };
+    const nextSlide = () => {
+        setCurrentIndex((prevIndex) => (prevIndex + 1) % trips.length);
+    };
 
-  const nextSlide = () => {
-    setCurrentIndex((prevIndex) => (prevIndex + 1) % images.length);
-  };
+    const getVisibleImages = () => {
+        if (trips.length === 0) {
+            return [];
+        }
+        return [trips[currentIndex]];
+    };
 
-  const getVisibleImages = () => {
-    const visibleImages = [];
-    for (let i = 0; i < 3; i++) {
-      visibleImages.push(images[(currentIndex + i) % images.length]);
-    }
-    return visibleImages;
-  };
-
-  return (
-    <div className={styles.section}>
-      <div className={styles.content}>
-        <div className={styles.carouselHeader}>
-          <p className={styles.carouselHeaderText}>Best Destinations to Experience</p>
-          <div className={styles.carouselButtons}>
-            <img src={leftButton} alt="Previous" className={styles.carouselButton} onClick={prevSlide} />
-            <img src={rightButton} alt="Next" className={styles.carouselButton} onClick={nextSlide} />
-          </div>
-        </div>
-        <div className={styles.carousel}>
-          {getVisibleImages().map((item, index) => (
-            <div key={index} className={styles.carouselItem}>
-              <img src={item.src} alt={`Slide ${index}`} className={styles.carouselImage} />
-              <p className={styles.imageTitle}>{item.title}</p>
+    return (
+        <div className={styles.thirdSection}>
+            <div className={styles.content}>
+                <div className={styles.carouselHeader}>
+                    <p className={styles.carouselHeaderText}>{title}</p>
+                    <div className={styles.carouselButtons}>
+                        <img src={leftButton} alt="Previous" className={styles.carouselButton} onClick={prevSlide} />
+                        <img src={rightButton} alt="Next" className={styles.carouselButton} onClick={nextSlide} />
+                    </div>
+                </div>
+                <div className={styles.carousel}>
+                    {getVisibleImages().map((trip, index) => (
+                        <Link to={`/trips/${trip._id}`} key={index} className={styles.carouselImageContainer}>
+                            <img src={trip.TripImage} alt={`Slide ${index}`} className={styles.carouselImage} />
+                            <div className={styles.tripInfo}>
+                                <h3 className={styles.tripName}>{trip.TripName}</h3>
+                                <p className={styles.tripDescription}>{trip.TripDescription}</p>
+                            </div>
+                        </Link>
+                    ))}
+                </div>
             </div>
-          ))}
         </div>
-      </div>
-    </div>
-  );
+    );
 };
 
 export default Carousel;

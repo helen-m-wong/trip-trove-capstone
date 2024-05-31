@@ -2,6 +2,7 @@ import React from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 
 import Home from './pages/Home/Home';
+import Search from './components/Search';
 import Signup from './pages/Signup/Signup';
 import Header from './components/Header';
 import Footer from './components/Footer';
@@ -13,6 +14,7 @@ import Experiences from './pages/Experiences/Experiences.js';
 import ExperienceDetail from './pages/Experiences/ExperienceDetail.js';
 import AddExperience from './pages/AddExperience/AddExperience.js';
 import EditExperience from './pages/Experiences/EditExperience.js';
+import FAQ from './pages/Faq/FAQ.js';
 
 function App() {
   return (
@@ -21,6 +23,8 @@ function App() {
         <Header />
         <Routes>
           <Route path="/" element={<Home />} />
+          <Route path="/search" component={Search} />
+          <Route path="/faq" element={<FAQ />} />
           <Route path="/trips" element={<Trips />} />
           <Route path="/trips/:id" element={<TripDetail />} />
           <Route path="/trips/add" element={<AddTrip />} />

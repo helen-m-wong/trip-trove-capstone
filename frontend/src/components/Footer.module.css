@@ -39,3 +39,8 @@
     margin-bottom: 5px;
     cursor: pointer;
   }
+
+a:hover {
+  color: #98DB2E;
+  transition: transform 0.3s;
+}

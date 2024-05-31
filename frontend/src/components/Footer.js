@@ -1,4 +1,5 @@
 import React from 'react';
+import { NavLink } from 'react-router-dom'; // Import NavLink from react-router-dom
 import styles from './Footer.module.css'; // Importing the CSS module
 
 const Footer = () => {
@@ -11,20 +12,14 @@ const Footer = () => {
         <div className={styles.column}>
           <h4>ABOUT</h4>
           <ul>
-            <li>FAQs</li>
+            <li><NavLink to="/faq" className={styles.footerLink} activeClassName={styles.activeLink}>FAQs</NavLink></li>
           </ul>
         </div>
         <div className={styles.column}>
           <h4>DESTINATIONS</h4>
           <ul>
-            <li>TRIPS</li>
-            <li>NEWS</li>
-          </ul>
-        </div>
-        <div className={styles.column}>
-          <h4>COMMUNITY</h4>
-          <ul>
-            <li>EVENTS</li>
+            <li><NavLink to="/trips" className={styles.footerLink} activeClassName={styles.activeLink}>TRIPS</NavLink></li>
+            <li><NavLink to="/experiences" className={styles.footerLink} activeClassName={styles.activeLink}>EXPERIENCES</NavLink></li>
           </ul>
         </div>
       </div>
