@@ -1,13 +1,16 @@
 import React, { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
+import { useAuth0 } from '@auth0/auth0-react';
 
 function EditTrip() {
     const { id } = useParams();
+    const [trip, setTrip] = useState(null);
     const [TripName, setTripName] = useState('');
     const [TripDescription, setTripDescription] = useState('');
     const [TripImage, setTripImage] = useState('');
     const navigate = useNavigate();
     const API_URL = "http://localhost:3000/";
+    const { getAccessTokenSilently, isAuthenticated, user, loginWithRedirect } = useAuth0();
 
     useEffect(() => {
         const getTrip = async () => {
@@ -16,6 +19,7 @@ function EditTrip() {
                 const data = await res.json();
                 if (res.status === 200) {
                     console.log('Trip data retrieved');
+                    setTrip(data);
                     setTripName(data.TripName);
                     setTripDescription(data.TripDescription);
                     setTripImage(data.TripImage);
@@ -28,6 +32,18 @@ function EditTrip() {
         };
         getTrip();
     }, [id]);
+
+    useEffect(() => {
+        if (trip && isAuthenticated && trip.userId !== user?.sub.split('|')[1]) {
+            window.alert('You cannot edit a trip you did not create');
+            navigate('/');
+        }
+    }, [trip, isAuthenticated, user, navigate]);
+
+    if (!isAuthenticated) {
+        loginWithRedirect();
+        return <div>Redirecting to login...</div>;
+    }
 
     const handleImageChange = (e) => {
         const reader = new FileReader();
@@ -47,10 +63,12 @@ function EditTrip() {
 
     const updateTrip = async () => {
         try {
+            const token = await getAccessTokenSilently();
             const res = await fetch(API_URL + `trips/${id}`, {
                 method: 'PUT',
                 headers: {
-                    'Content-Type': 'application/json'
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${token}`
                 },
                 body: JSON.stringify({ TripName, TripDescription, TripImage})
             });

@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { useNavigate } from "react-router-dom";
+import { useAuth0, withAuthenticationRequired } from '@auth0/auth0-react';
 
 function AddTrip() {
     const [tripName, setTripName] = useState('');
@@ -7,14 +8,22 @@ function AddTrip() {
     const [tripImage, setTripImage] = useState('');
     const navigate = useNavigate();
     const API_URL = "http://localhost:3000/";
+    const { getAccessTokenSilently, isAuthenticated } = useAuth0();
 
     const addTrip = async (event) => {
         event.preventDefault();
+        if (!isAuthenticated) {
+            console.error('User is not authenticated');
+            return;
+        }
+
         try {
+            const token = await getAccessTokenSilently();
             const res = await fetch(API_URL + 'trips', {
                 method: 'POST',
                 headers: {
-                    'Content-Type': 'application/json'
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${token}`
                 },
                 body: JSON.stringify({
                     TripName: tripName,
@@ -39,7 +48,6 @@ function AddTrip() {
         const reader = new FileReader();
         reader.readAsDataURL(e.target.files[0]);
         reader.onload = () => {
-            console.log(reader.result);
             setTripImage(reader.result); // Preview image
         };
         reader.onerror = (error) => {
@@ -90,4 +98,4 @@ function AddTrip() {
     );
 }
 
-export default AddTrip;
+export default withAuthenticationRequired(AddTrip);
