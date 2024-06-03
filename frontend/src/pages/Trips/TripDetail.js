@@ -188,30 +188,33 @@ function TripDetail() {
     return (
         <>
             {trip && (
-                <div>
-                    {trip.TripImage && (
-                        <img
-                            src={trip.TripImage}
-                            alt="trip" 
-                            style={{ maxWidth: '50%', maxHeight: '50%', width: 'auto', height: 'auto' }}
-                        />
-                    )}
-                    <h2>{trip.TripName}</h2>
-                    
-                    {isOwner && (
-                        <>
-                            <button onClick={handleEditTrip}>Edit</button>
-                            <button onClick={deleteTrip}>Delete Trip</button>
-                            {trip.TripDays.length > 0 && <button onClick={deleteDay}>Delete Day</button>}
-                        </>
-                    )}
-
-                    <p>{trip.TripDescription}</p>
+                <div className={styles.tripDetailContainer}>
+                    <div className={styles.tripContent}>
+                        {trip.TripImage && (
+                            <img
+                                src={trip.TripImage}
+                                alt="trip" 
+                                className={styles.tripImage}
+                            />
+                        )}
+                        <div className={styles.tripDetails}>
+                        <h2 className={styles.tripName}>{trip.TripName}</h2>
+                            {isOwner && (
+                                <div className={styles.tripButtons}>
+                                    <button className={styles.tripButton} onClick={handleEditTrip}>Edit</button>
+                                    <button className={styles.tripButton} onClick={deleteTrip}>Delete Trip</button>
+                                    <button className={styles.tripButton} onClick={addDay}>Add Day</button>
+                                    {trip.TripDays.length > 0 && <button className={styles.tripButton} onClick={deleteDay}>Delete Day</button>}
+                                </div>
+                            )}
+                            <p className={styles.tripDescription}>{trip.TripDescription}</p>
+                        </div>
+                    </div>
                     {trip.TripDays.map((day) => (
-                        <div key={day._id}>
-                            <div>
+                        <div key={day._id} className={styles.dayContainer}>
+                            <div className={styles.dayHeader}>
                                 <p>Day {day.DayNumber}</p>
-                                <button onClick={() => toggleDay(day.DayNumber)}>
+                                <button className={styles.tripButton} onClick={() => toggleDay(day.DayNumber)}>
                                     {openDays[day.DayNumber] ? 'Hide Experiences' : 'Show Experiences'}
                                 </button>
                             </div>
@@ -220,28 +223,26 @@ function TripDetail() {
                                     {day.DayExperiences.length > 0 ? (
                                         day.DayExperiences.map((experience) => (
                                             <div key={experience._id}>
-                                                <Link to={`/experiences/${experience._id}`} className={styles.expName} >{experience.ExperienceName}</Link>
-                                                {isOwner && (
-                                                    <button onClick={() => removeExperience(day._id, experience._id)}>Remove</button>
-                                                )}
+                                                <Link to={`/experiences/${experience._id}`} className={styles.experienceLink} >{experience.ExperienceName}</Link>
                                                 {isOwner && (
                                                     <div>
+                                                        <button className={styles.smallTripButton} onClick={() => removeExperience(day._id, experience._id)}>Remove</button>
                                                         {/* Shows Select a Day dropdown and sets moveExperienceId and originalDay */}
-                                                        <button onClick={() => showSelectDay(experience._id, day._id)}>Move to another day</button>
+                                                        <button className={styles.smallTripButton} onClick={() => showSelectDay(experience._id, day._id)}>Move to another day</button>
                                                         {moveExperienceId === experience._id && (
-                                                            <div>
+                                                            <div className={styles.selectDayDropdown}>
                                                                 <select value={selectedDay} onChange={(e) => setSelectedDay(e.target.value)}>
                                                                     <option value="">----</option>
                                                                     {trip.TripDays.map((day) => (
                                                                         <option key={day._id} value={day._id}>Day {day.DayNumber}</option>
                                                                     ))}
                                                                 </select>
-                                                                <button onClick={handleMoveExperience}>Confirm</button>
+                                                                <button className={styles.smallTripButton} onClick={handleMoveExperience}>Confirm</button>
                                                             </div>
                                                         )}
                                                     </div>
                                                 )}
-                                                <p>{experience.ExperienceDescription}</p>
+                                                <p className={styles.experienceDescription}>{experience.ExperienceDescription}</p>
                                             </div>
                                         ))
                                     ) : (
@@ -251,8 +252,6 @@ function TripDetail() {
                             )}
                         </div>
                     ))}
-                    <br></br>
-                    {isOwner && <button onClick={addDay}>Add Day</button>}
                 </div>
             )}
         </>

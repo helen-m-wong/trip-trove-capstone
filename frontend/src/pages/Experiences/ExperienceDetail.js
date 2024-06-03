@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { useAuth0 } from '@auth0/auth0-react';
+import styles from './Experiences.module.css'; // Importing the CSS module
 
 function ExperienceDetail() {
     const { id } = useParams();
@@ -169,59 +170,63 @@ function ExperienceDetail() {
     return (
         <>
             {experience && (
-                <div>
-                    {experience.ExperienceImage && (
-                        <img
-                            src={experience.ExperienceImage}
-                            alt="experience" 
-                            style={{ maxWidth: '50%', maxHeight: '50%', width: 'auto', height: 'auto' }}
-                        />
-                    )}
-                    <h2>{experience.ExperienceName}</h2>
-
-                   {/* Only show edit and delete buttons to the owner */}
-                   {isOwner && (
-                       <>
-                           <button onClick={handleEditExperience}>Edit</button>
-                           <button onClick={deleteExperience}>Delete</button>
-                       </>
-                   )}
-                    
-                    {/* Show Add to Trip button only if authenticated */}
-                    {isAuthenticated && (
-                        <button onClick={handleAddToTrip}>Add to Trip</button>
-                    )}
-                    
-                    {/* Select a Trip and day dropdown */}
-                    {showTripDropdown && (
-                       <div>
-                           <label htmlFor="tripSelect">Select a Trip:</label>
-                           <select id="tripSelect" value={selectedTrip} onChange={(e) => handleTripChange(e.target.value)}>
-                               <option value="">----</option>
-                               {trips.map((trip) => (
-                                   <option key={trip._id} value={trip._id}>{trip.TripName}</option>
-                               ))}
-                           </select>
-                           {/* Show Select a Day dropdown after selecting a trip */}
-                           {selectedTrip && (
-                               <div>
-                                   <label htmlFor="daySelect">Select a Day:</label>
-                                   <select id="daySelect" value={selectedDay} onChange={(e) => setSelectedDay(e.target.value)}>
-                                       <option value="">----</option>
-                                       {days.map((day) => (
-                                           <option key={day._id} value={day._id}>Day {day.DayNumber}</option>
-                                       ))}
-                                   </select>
-                                   {/* Show Confirm button after selecting a day */}
-                                   {selectedDay && (
-                                       <button onClick={handleConfirmAddToTrip}>Confirm</button>
-                                   )}
-                               </div>
-                           )}
-                       </div>
-                   )}
-
-                    <p>{experience.ExperienceDescription}</p> 
+                <div className={styles.experienceDetailContainer}>
+                    <div className={styles.experienceDetailContent}>
+                        {experience.ExperienceImage && (
+                            <img
+                                className={styles.experienceDetailImage}
+                                src={experience.ExperienceImage}
+                                alt="experience" 
+                            />
+                        )}
+                        <div className={styles.experienceDetails}>
+                            <div className={styles.experienceTitle}>
+                                <h2>{experience.ExperienceName}</h2>
+                                <div className={styles.experienceButtons}>
+                                    {/* Only show edit and delete buttons to the owner */}
+                                    {isOwner && (
+                                        <>
+                                            <button class={styles.experienceButton} onClick={handleEditExperience}>Edit</button>
+                                            <button class={styles.experienceButton} onClick={deleteExperience}>Delete</button>
+                                        </>
+                                    )}
+                                    {/* Show Add to Trip button only if authenticated */}
+                                    {isAuthenticated && (
+                                        <button class={styles.experienceButton} onClick={handleAddToTrip}>Add to Trip</button>
+                                    )}
+                                </div>
+                            </div>
+                            {/* Select a Trip and day dropdown */}
+                            {showTripDropdown && (
+                            <div className={styles.tripDropdown}>
+                                <label htmlFor="tripSelect">Select a Trip:</label>
+                                <select id="tripSelect" value={selectedTrip} onChange={(e) => handleTripChange(e.target.value)}>
+                                    <option value="">----</option>
+                                    {trips.map((trip) => (
+                                        <option key={trip._id} value={trip._id}>{trip.TripName}</option>
+                                    ))}
+                                </select>
+                                {/* Show Select a Day dropdown after selecting a trip */}
+                                {selectedTrip && (
+                                    <div>
+                                        <label htmlFor="daySelect">Select a Day:</label>
+                                        <select id="daySelect" value={selectedDay} onChange={(e) => setSelectedDay(e.target.value)}>
+                                            <option value="">----</option>
+                                            {days.map((day) => (
+                                                <option key={day._id} value={day._id}>Day {day.DayNumber}</option>
+                                            ))}
+                                        </select>
+                                        {/* Show Confirm button after selecting a day */}
+                                        {selectedDay && (
+                                            <button className={styles.experienceButton} onClick={handleConfirmAddToTrip}>Confirm</button>
+                                        )}
+                                    </div>
+                                )}
+                            </div>
+                        )}
+                            <p className={styles.experienceDescription}>{experience.ExperienceDescription}</p> 
+                        </div>
+                    </div>
                 </div>
             )}
         </>
