@@ -1,13 +1,16 @@
 import React, { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
+import { useAuth0 } from '@auth0/auth0-react';
 
 function EditExperience() {
     const { id } = useParams();
+    const [experience, setExperience] = useState(null);
     const [ExperienceName, setExperienceName] = useState('');
     const [ExperienceDescription, setExperienceDescription] = useState('');
     const [ExperienceImage, setExperienceImage] = useState('');
     const navigate = useNavigate();
     const API_URL = "http://localhost:3000/";
+    const { getAccessTokenSilently, isAuthenticated, user, loginWithRedirect } = useAuth0();
 
     useEffect(() => {
         const getExperience = async () => {
@@ -16,6 +19,7 @@ function EditExperience() {
                 const data = await res.json();
                 if (res.status === 200) {
                     console.log('Experience data retrieved');
+                    setExperience(data);
                     setExperienceName(data.ExperienceName);
                     setExperienceDescription(data.ExperienceDescription);
                     setExperienceImage(data.ExperienceImage);
@@ -29,8 +33,19 @@ function EditExperience() {
         getExperience();
     }, [id]);
 
-    const handleImageChange = (e) => {
+    useEffect(() => {
+        if (experience && isAuthenticated && experience.userId !== user?.sub.split('|')[1]) {
+            window.alert('You cannot edit an experience you did not create');
+            navigate('/');
+        }
+    }, [experience, isAuthenticated, user, navigate]);
 
+    if (!isAuthenticated) {
+        loginWithRedirect();
+        return <div>Redirecting to login...</div>;
+    }
+
+    const handleImageChange = (e) => {
         const reader = new FileReader();
         reader.readAsDataURL(e.target.files[0]);
         reader.onload = () => {
@@ -39,8 +54,6 @@ function EditExperience() {
         reader.onerror = (error) => {
             console.log("Error: ", error);
         };
-
-
     };
 
     const handleSubmit = async (e) => {
@@ -50,10 +63,12 @@ function EditExperience() {
 
     const updateExperience = async () => {
         try {
+            const token = await getAccessTokenSilently();
             const res = await fetch(API_URL + `experiences/${id}`, {
                 method: 'PUT',
                 headers: {
-                    'Content-Type': 'application/json'
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${token}`
                 },
                 body: JSON.stringify({ ExperienceName, ExperienceDescription, ExperienceImage})
             });

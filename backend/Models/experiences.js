@@ -12,6 +12,10 @@ const ExperienceSchema = new mongoose.Schema(
         },
         ExperienceImage: {
             type: String
+        },
+        userId: {
+            type: String,
+            required: true
         }
     });
 

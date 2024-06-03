@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { useNavigate } from "react-router-dom";
+import { useAuth0, withAuthenticationRequired } from '@auth0/auth0-react';
 
 function AddExperience() {
     const [experienceName, setExperienceName] = useState('');
@@ -7,14 +8,22 @@ function AddExperience() {
     const [experienceImage, setExperienceImage] = useState('');
     const navigate = useNavigate();
     const API_URL = "http://localhost:3000/";
+    const { getAccessTokenSilently, isAuthenticated } = useAuth0();
 
     const addExperience = async (event) => {
         event.preventDefault();
+        if (!isAuthenticated) {
+            console.error('User is not authenticated');
+            return;
+        }
+
         try {
+            const token = await getAccessTokenSilently();
             const res = await fetch(API_URL + 'experiences', {
                 method: 'POST',
                 headers: {
-                    'Content-Type': 'application/json'
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${token}`
                 },
                 body: JSON.stringify({
                     ExperienceName: experienceName,
@@ -39,7 +48,6 @@ function AddExperience() {
         const reader = new FileReader();
         reader.readAsDataURL(e.target.files[0]);
         reader.onload = () => {
-            console.log(reader.result);
             setExperienceImage(reader.result); // Preview image
         };
         reader.onerror = (error) => {
@@ -90,4 +98,4 @@ function AddExperience() {
     );
 }
 
-export default AddExperience;
+export default withAuthenticationRequired(AddExperience);

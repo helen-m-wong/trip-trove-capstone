@@ -25,6 +25,10 @@ const TripSchema = new mongoose.Schema(
         TripDays: [DaySchema],
         TripImage: {
             type: String
+        },
+        userId: {
+            type: String,
+            required: true
         }
     });
 
