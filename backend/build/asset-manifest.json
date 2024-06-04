@@ -1,0 +1,29 @@
+{
+  "files": {
+    "main.css": "/static/css/main.d77a97c4.css",
+    "main.js": "/static/js/main.c8775d87.js",
+    "static/media/featuredexample4.png": "/static/media/featuredexample4.8df2bc75df0a66497e5f.png",
+    "static/media/featuredexample1.png": "/static/media/featuredexample1.7a48abef27c38f5666d9.png",
+    "static/media/tripimage1.jpg": "/static/media/tripimage1.47217ebcdcc369372ec1.jpg",
+    "static/media/homepage1.jpg": "/static/media/homepage1.6af4f4da4311ad67378f.jpg",
+    "static/media/homepage2.webp": "/static/media/homepage2.c36e852490763ff104e3.webp",
+    "static/media/china.png": "/static/media/china.458c0527a72f6e08768f.png",
+    "static/media/austria.png": "/static/media/austria.1eeb888145ab6e517958.png",
+    "static/media/nepal.png": "/static/media/nepal.b970c7a3b070df4d070b.png",
+    "static/media/switzerland.png": "/static/media/switzerland.d2d92f05b568db10cd1a.png",
+    "static/media/singapore.png": "/static/media/singapore.855448eafcb734b76210.png",
+    "static/media/hongkong.png": "/static/media/hongkong.f8bdadd5e3ef1cdd2cfe.png",
+    "static/media/usa.png": "/static/media/usa.0d9b5a2ee337af218a50.png",
+    "static/media/germany.png": "/static/media/germany.217b40d50fbb5eacecc2.png",
+    "static/media/japan.png": "/static/media/japan.f321c1f6da271c43edb7.png",
+    "static/media/profile.svg": "/static/media/profile.dd1604dcb59800b0d4d46617b2af7f7b.svg",
+    "index.html": "/index.html",
+    "static/media/search.svg": "/static/media/search.94a78450ca5ba34a4ab94a869ece58a7.svg",
+    "main.d77a97c4.css.map": "/static/css/main.d77a97c4.css.map",
+    "main.c8775d87.js.map": "/static/js/main.c8775d87.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.d77a97c4.css",
+    "static/js/main.c8775d87.js"
+  ]
+}
