@@ -2,7 +2,7 @@ import React from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 
 import Home from './pages/Home/Home';
-import Search from './components/Search';
+import Search from './pages/Search/Search.js';
 import Signup from './pages/Signup/Signup';
 import Header from './components/Header';
 import Footer from './components/Footer';
@@ -23,7 +23,7 @@ function App() {
         <Header />
         <Routes>
           <Route path="/" element={<Home />} />
-          <Route path="/search" component={Search} />
+          <Route path="/search" element={<Search />} />
           <Route path="/faq" element={<FAQ />} />
           <Route path="/trips" element={<Trips />} />
           <Route path="/trips/:id" element={<TripDetail />} />

@@ -1,4 +1,6 @@
 import React, { useState, useRef } from 'react';
+import { useNavigate } from 'react-router-dom';
+
 import styles from './Home.module.css'; // Importing the CSS module
 import backgroundImage1 from '../../assets/images/homepage1.jpg'; // Import the first background image
 import backgroundImage2 from '../../assets/images/homepage2.webp'; // Import the second background image
@@ -8,13 +10,15 @@ import Carousel from '../../components/Carousel'; // Import the Carousel compone
 const Home = () => {
   const [searchQuery, setSearchQuery] = useState(''); // State for the search query
   const carouselRef = useRef(null); // Create a ref for the carousel section
+  const navigate = useNavigate(); 
 
-  const handleSearchInputChange = (event) => {
-    setSearchQuery(event.target.value);
-  };
 
-  const handleSearchButtonClick = () => {
-    // Trigger search functionality
+  const handleSearchButtonClick = (e) => {
+    e.preventDefault();
+    console.log(searchQuery);
+    if (searchQuery.trim()) {
+      navigate(`/search?query=${searchQuery}`);
+    }
   };
 
   const scrollToCarousel = () => {
@@ -33,7 +37,7 @@ const Home = () => {
               type="text"
               className={styles.searchInput}
               value={searchQuery}
-              onChange={handleSearchInputChange} // Handle input change
+              onChange={(e) => setSearchQuery(e.target.value)} // Handle input change
             />
             <button className={styles.searchButton} onClick={handleSearchButtonClick}>Search</button> {/* Handle button click */}
           </div>
