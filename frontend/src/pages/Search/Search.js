@@ -15,7 +15,7 @@ const Search = () => {
   useEffect(() => {
     const fetchExperiences = async () => {
         try {
-            const response = await fetch(`http://localhost:3000/experiences?keyword=${searchQuery}`);
+            const response = await fetch(`https://trip-trove-425520.wl.r.appspot.com/experiences?keyword=${searchQuery}`);
             const data = await response.json();
             if (response.status === 200) {
               console.log('Experience data retrieved');

@@ -7,7 +7,7 @@ function AddTrip() {
     const [tripDescription, setTripDescription] = useState('');
     const [tripImage, setTripImage] = useState('');
     const navigate = useNavigate();
-    const API_URL = "http://localhost:3000/";
+    const API_URL = "https://trip-trove-425520.wl.r.appspot.com/";
     const { getAccessTokenSilently, isAuthenticated } = useAuth0();
 
     const addTrip = async (event) => {

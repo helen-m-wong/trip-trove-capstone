@@ -9,7 +9,7 @@ function EditExperience() {
     const [ExperienceDescription, setExperienceDescription] = useState('');
     const [ExperienceImage, setExperienceImage] = useState('');
     const navigate = useNavigate();
-    const API_URL = "http://localhost:3000/";
+    const API_URL = "https://trip-trove-425520.wl.r.appspot.com/";
     const { getAccessTokenSilently, isAuthenticated, user, loginWithRedirect } = useAuth0();
 
     useEffect(() => {
