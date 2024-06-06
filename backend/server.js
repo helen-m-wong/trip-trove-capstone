@@ -6,7 +6,6 @@ import { routerTrips, routerExperiences } from './router.js';
 import { authErrorHandler } from './auth.js';
 
 const app = express();
-const port = 3000;
 
 connectDB();
 
@@ -19,6 +18,6 @@ app.use('/trips', routerTrips);
 app.use('/experiences', routerExperiences);
 app.use(authErrorHandler);
 
-app.listen(port, () => {
-  console.log(`Example app listening at http://localhost:${port}`);
-});
+const PORT = process.env.PORT || 3000;
+app.listen(PORT, () => {
+    console.log(`Server listening on port ${PORT}...`)});

@@ -7,7 +7,7 @@ function AddExperience() {
     const [experienceDescription, setExperienceDescription] = useState('');
     const [experienceImage, setExperienceImage] = useState('');
     const navigate = useNavigate();
-    const API_URL = "http://localhost:3000/";
+    const API_URL = "https://trip-trove-425520.wl.r.appspot.com/";
     const { getAccessTokenSilently, isAuthenticated } = useAuth0();
 
     const addExperience = async (event) => {

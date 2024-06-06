@@ -4,11 +4,11 @@ import { Link } from "react-router-dom";
 function Experiences() {
 
     const [experiences, setExperiences] = useState([]);
-
+    const API_URL = "https://trip-trove-425520.wl.r.appspot.com/"
     useEffect(() => {
         const getExperiences = async() => {
             try {
-                const res = await fetch('/experiences');
+                const res = await fetch(API_URL + 'experiences');
                 const data = await res.json();
                 if (res.status === 200) {
                     console.log("Experiences data retrieved");

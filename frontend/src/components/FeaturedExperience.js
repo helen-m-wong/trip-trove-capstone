@@ -7,7 +7,7 @@ const FeatureExperience = () => {
     const [currentIndex, setCurrentIndex] = useState(0);
 
     useEffect(() => {
-        fetch('http://localhost:3000/experiences')
+        fetch('https://trip-trove-425520.wl.r.appspot.com/experiences')
             .then(response => response.json())
             .then(data => setExperiences(data))
             .catch(error => console.error('Error fetching experience data:', error));
