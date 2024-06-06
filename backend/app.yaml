@@ -1,15 +1,9 @@
 runtime: nodejs18
 
 handlers:
-  # Route all /api/* requests to the Node.js server
-  - url: /api/.*
-    script: auto
-
-  # Serve static files from the build directory
   - url: /static
     static_dir: build/static
 
-  # Catch all handler to serve your React app's index.html
-  - url: /.*
+  - url: /(.*)
     static_files: build/index.html
     upload: build/index.html

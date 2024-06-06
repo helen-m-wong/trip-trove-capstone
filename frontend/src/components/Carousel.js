@@ -9,7 +9,7 @@ const Carousel = ({ title }) => {
     const [currentIndex, setCurrentIndex] = useState(0);
 
     useEffect(() => {
-        fetch('/api/trips')
+        fetch('http://localhost:3000/trips')
             .then(response => response.json())
             .then(data => setTrips(data))
             .catch(error => console.error('Error fetching trip data:', error));

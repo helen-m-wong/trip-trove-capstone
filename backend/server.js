@@ -25,8 +25,8 @@ app.use(bodyParser.urlencoded({ limit: '10mb', extended: true }));
 app.use(express.static(path.join(__dirname, 'build')));
 
 // API routes
-app.use('/api/trips', routerTrips);
-app.use('/api/experiences', routerExperiences);
+app.use('/trips', routerTrips);
+app.use('/experiences', routerExperiences);
 app.use(authErrorHandler);
 
 // Catch-all handler to serve React's index.html for any other routes
