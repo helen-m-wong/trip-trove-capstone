@@ -1,0 +1,275 @@
+.tour-details {
+    padding: 20px;
+    background-color: #f9f9f9;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    max-width: 800px;
+    margin: 0 auto;
+  }
+  
+  .tour-details h1 {
+    font-size: 2.5em;
+    margin-bottom: 10px;
+    color: #333;
+  }
+  
+  .tour-details p {
+    font-size: 1.2em;
+    margin-bottom: 20px;
+    color: #666;
+  }
+  
+  .days-list {
+    margin-top: 20px;
+  }
+  
+  .day {
+    margin-bottom: 20px;
+  }
+  
+  .day h2 {
+    font-size: 1.8em;
+    margin-bottom: 10px;
+    color: #444;
+  }
+  
+  .experiences-list {
+    list-style-type: none;
+    padding: 0;
+  }
+  
+  .experiences-list li {
+    font-size: 1.2em;
+    margin: 5px 0;
+    color: #555;
+  }
+  
+  .loading,
+  .error {
+    text-align: center;
+    font-size: 1.5em;
+    color: #888;
+  }
+
+  .firstSection {
+    position: relative;
+    height: 100vh;
+    background: url('../../assets/images/tripimage1.jpg') no-repeat center center;
+    background-size: cover;
+    display: flex;
+    align-items: flex-end;
+    padding: 20px;
+    color: white;
+  }
+  
+  .textContainer {
+    max-width: 500px;
+    margin-left: 20px;
+  }
+  
+  .title {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 88px;
+    font-weight: lighter;
+    margin-bottom: 10px;
+  
+  }
+  
+  .subtitle {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 26px;
+    font-weight: lighter;
+  }
+  
+  /* Third section styling */
+  .thirdSection {
+    background-color: #F3F4F6;
+  }
+  
+  .section {
+    height: 100vh;
+    background-size: auto;
+    background-position: center;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+  }
+  
+  .content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+  
+  .carouselHeader {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    margin-bottom: 20px;
+  }
+  
+  .carouselHeaderText {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 52px;
+    color: #171A1F;
+  }
+  
+  .carouselButtons {
+    display: flex;
+  }
+  
+  .carouselButton {
+    width: 60px;
+    height: 60px;
+    margin-left: 10px;
+    cursor: pointer;
+  }
+  
+  .carousel {
+    display: flex;
+    overflow: hidden;
+    width: 100%;
+    justify-content: center;
+  }
+  
+  .carouselImage {
+    max-width: 30%;
+    margin: 0 10px;
+    transition: transform 0.5s ease-in-out;
+  }
+  
+  .expName {
+    color: purple;
+  }
+
+/* CSS for TripDetail */
+.tripDetailContainer {
+  margin-top: 50px;
+  margin-left: 50px;
+  margin-right: 200px;
+  margin-bottom: 200px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  font-family: Arial, sans-serif;
+}
+
+.tripContent {
+  display: flex;
+  flex-direction: row;
+  align-items: flex-start;
+  width: 100%;
+}
+
+.tripImage {
+  width: 250px; /* Fixed size for square */
+  height: 250px; /* Fixed size for square */
+  object-fit: cover; /* Ensures the image covers the entire square area */
+  margin-right: 40px;
+}
+
+.tripDetails {
+  flex: 1;
+}
+
+.tripName {
+  font-size: 1.6rem;
+  margin-bottom: 30px;
+}
+
+.tripDescription {
+  margin-top: 10px;
+  text-align: justify;
+  font-size: 1.3rem;
+}
+
+.dayContainer {
+  margin-top: 10px;
+  border-top: 1px solid #ccc;
+  padding-top: 10px;
+}
+
+.dayHeader {
+  display: flex;
+  align-items: center;
+  gap: 10px; /* Spacing between day number and button */
+  width: 100%;
+  font-size: 1.3rem;
+}
+
+.experienceLink {
+  font-size: 1.3rem;
+  color: purple;
+  text-decoration: none;
+  margin-right: 20px;
+}
+
+.experienceDescription {
+  margin-top: 20px;
+  margin-bottom: 50px;
+  text-align: justify;
+  font-size: 1.2rem;
+}
+
+.experienceButtons {
+  display: flex;
+  justify-content: flex-start;
+  gap: 10px; /* Spacing between buttons */
+  margin-top: 10px;
+}
+
+.selectDayDropdown select, .tripDropdown label {
+  height: 35px;
+  width: auto;
+  margin-right: 20px;
+  font-size: 1rem;
+}
+
+.tripButtons {
+  display: flex;
+  justify-content: flex-start;
+  gap: 70px;
+  width: 100%;
+  margin-bottom: 30px;
+}
+
+.tripButton {
+  background-color: #FAFBFC;
+  border: 1px solid rgba(27, 31, 35, 0.15);
+  border-radius: 6px;
+  box-shadow: rgba(27, 31, 35, 0.04) 0 1px 0, rgba(255, 255, 255, 0.25) 0 1px 0 inset;
+  box-sizing: border-box;
+  color: #24292E;
+  cursor: pointer;
+  font-size: 17px;
+  font-weight: 500;
+  line-height: 25px;
+  padding: 10px 20px;
+}
+
+.tripButton:hover {
+  background-color: #F3F4F6;
+  text-decoration: none;
+}
+
+.smallTripButton {
+  margin-top: 20px;
+  background-color: #FAFBFC;
+  border: 1px solid rgba(27, 31, 35, 0.15);
+  border-radius: 6px;
+  box-shadow: rgba(27, 31, 35, 0.04) 0 1px 0, rgba(255, 255, 255, 0.25) 0 1px 0 inset;
+  box-sizing: border-box;
+  color: #24292E;
+  cursor: pointer;
+  font-size: 15px;
+  font-weight: 400;
+  line-height: 15px;
+  padding: 6px 16px;
+}
+
+.smallTripButton:hover {
+  background-color: #F3F4F6;
+  text-decoration: none;
+}

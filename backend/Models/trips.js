@@ -22,7 +22,14 @@ const TripSchema = new mongoose.Schema(
         TripDescription: {
             type: String
         },
-        TripDays: [DaySchema]
+        TripDays: [DaySchema],
+        TripImage: {
+            type: String
+        },
+        userId: {
+            type: String,
+            required: true
+        }
     });
 
 const Trip = mongoose.model("Trip", TripSchema)

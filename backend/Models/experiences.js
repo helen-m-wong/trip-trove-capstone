@@ -7,7 +7,15 @@ const ExperienceSchema = new mongoose.Schema(
             required: true
         },
         ExperienceDescription: {
+            type: String,
+            required: true
+        },
+        ExperienceImage: {
             type: String
+        },
+        userId: {
+            type: String,
+            required: true
         }
     });
 
