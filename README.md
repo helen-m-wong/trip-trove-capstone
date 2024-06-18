@@ -1,1 +1,1 @@
-# cs467-capstone
+# TripTrove
