@@ -3,6 +3,7 @@ runtime: nodejs18
 env_variables:
   AUTH0_DOMAIN: dev-2pha5q8lkycvn84c.us.auth0.com
   AUTH0_AUDIENCE: https://trip-trove-api
+  MONGO_URL: "mongodb+srv://wonghele:wQUDeHROxfHSOooY@tripplannerdb.y1x1gi0.mongodb.net/"
   
 handlers:
   - url: /api/.*

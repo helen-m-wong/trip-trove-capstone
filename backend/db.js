@@ -10,9 +10,11 @@ URL: https://medium.com/featurepreneur/connect-mongodb-database-to-express-serve
 */
 
 import mongoose from "mongoose";
+import dotenv from 'dotenv';
+dotenv.config();
 
 export default function connectDB() {
-  const url = "mongodb+srv://wonghele:wQUDeHROxfHSOooY@tripplannerdb.y1x1gi0.mongodb.net/";
+  const url = process.env.MONGO_URL;
   try {
     mongoose.connect(
         url,
